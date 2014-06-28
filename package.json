@@ -1,0 +1,22 @@
+{
+  "name": "ember-cli-async-button",
+  "version": "0.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dockyard/ember-cli-async-button.git"
+  },
+  "keywords": [
+    "ember-addon"
+  ],
+  "author": "Brian Cardarella",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dockyard/ember-cli-async-button/issues"
+  },
+  "homepage": "https://github.com/dockyard/ember-cli-async-button"
+}
