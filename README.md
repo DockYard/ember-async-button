@@ -65,7 +65,7 @@ to the `default` value.
 Special text  used if the promise is rejected. If not provided will default
 to the `default` value.
 
-#### Styling ####
+### Styling ###
 
 A class of `async-button` is assigned to the button. An additional
 dynamic class is assigned during one of the four states:
