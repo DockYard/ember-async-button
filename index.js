@@ -16,7 +16,7 @@ function unwatchedTree(dir) {
 }
 
 EmberCLIAsyncButton.prototype.treeFor = function treeFor(name) {
-  var treePath =  path.join('node_modules', 'ember-cli-super-number', name);
+  var treePath =  path.join('node_modules', 'ember-cli-async-button', name);
 
   if (fs.existsSync(treePath)) {
     return unwatchedTree(treePath);

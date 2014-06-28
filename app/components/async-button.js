@@ -17,7 +17,7 @@ export default Ember.Component.extend({
   },
 
   text: Ember.computed('textState', function() {
-    return this.get(this.textState);
+    return this.getWithDefault(this.textState, this.get('default'));
   }),
 
   bindActionPromise: Ember.on('init', function() {
@@ -28,17 +28,9 @@ export default Ember.Component.extend({
   handleActionPromise: Ember.observer('actionPromise', function() {
     var _this = this;
     this.get('actionPromise').then(function() {
-      if (_this.get('success')) {
-        _this.set('textState', 'success');
-      } else {
-        _this.set('textState', 'default');
-      }
+      _this.set('textState', 'success');
     }).catch(function() {
-      if (_this.get('fail')) {
-        _this.set('textState', 'fail');
-      } else {
-        _this.set('textState', 'default');
-      }
+      _this.set('textState', 'fail');
     });
   }),
 });
