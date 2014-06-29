@@ -2,6 +2,12 @@
 
 [See a demo](http://emberjs.jsbin.com/vomuzexe/1)
 
+## About ##
+
+When running async actions ensuring disabling of the button,
+re-enabling, and handling promise rejections is pretty boilerplate. This
+component packages up that behavior.
+
 ## Install ##
 
 ```bash
