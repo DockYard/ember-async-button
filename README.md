@@ -38,7 +38,7 @@ Ember.Controller.extend({
 Make special note of `this.set('savePromise', promise);` In order for
 `async-button` to work correctly the promise in the action must be
 assigned to the property of `<actionName>Promise`. So if you are using
-an action named `destroy` you need to assign to `destroyPromise`.
+an action named `destroyRecord` you need to assign to `destroyRecordPromise`.
 
 ### Options ###
 
