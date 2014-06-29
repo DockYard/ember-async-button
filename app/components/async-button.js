@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     this.set('textState', 'pending');
   },
 
-  text: Ember.computed('textState', function() {
+  text: Ember.computed('textState', 'default', 'pending', 'resolved', 'rejected', function() {
     return this.getWithDefault(this.textState, this.get('default'));
   }),
 
@@ -28,9 +28,9 @@ export default Ember.Component.extend({
   handleActionPromise: Ember.observer('actionPromise', function() {
     var _this = this;
     this.get('actionPromise').then(function() {
-      _this.set('textState', 'success');
+      _this.set('textState', 'resolved');
     }).catch(function() {
-      _this.set('textState', 'fail');
+      _this.set('textState', 'rejected');
     });
   }),
 });

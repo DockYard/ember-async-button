@@ -55,12 +55,12 @@ The default text used for the button.
 Special text  used while the promise is running. If not provided will default
 to the `default` value.
 
-#### `success` ####
+#### `resolved` ####
 
 Special text  used if the promise is resolved. If not provided will default
 to the `default` value.
 
-#### `fail` ####
+#### `rejected` ####
 
 Special text  used if the promise is rejected. If not provided will default
 to the `default` value.
@@ -72,8 +72,8 @@ dynamic class is assigned during one of the four states:
 
 * `default`
 * `pending`
-* `success`
-* `fail`
+* `resolved`
+* `rejected`
 
 ## Authors ##
 
