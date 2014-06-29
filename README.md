@@ -1,5 +1,7 @@
 # Ember CLI Async Button
 
+[See a demo](http://emberjs.jsbin.com/vomuzexe/1)
+
 ## Install ##
 
 ```bash
