@@ -54,18 +54,15 @@ The default text used for the button.
 
 #### `pending` ####
 
-Special text  used while the promise is running. If not provided will default
-to the `default` value.
+Special text  used while the promise is running. If not provided will use the `default` value.
 
 #### `resolved` ####
 
-Special text  used if the promise is resolved. If not provided will default
-to the `default` value.
+Special text  used if the promise is resolved. If not provided will use the `default` value.
 
 #### `rejected` ####
 
-Special text  used if the promise is rejected. If not provided will default
-to the `default` value.
+Special text  used if the promise is rejected. If not provided will use the `default` value.
 
 ### Styling ###
 
