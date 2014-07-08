@@ -7,9 +7,7 @@ export default Ember.Component.extend({
   classNameBindings: ['textState'],
   attributeBindings: ['disabled'],
 
-  disabled: Ember.computed('textState', function() {
-    return this.get('textState') === 'pending';
-  }),
+  disabled: Ember.computed.equal('textState','pending'),
 
   click: function() {
     this.sendAction();
