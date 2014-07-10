@@ -22,14 +22,16 @@ export default Ember.Component.extend({
     return this.getWithDefault(this.textState, this.get('default'));
   }),
 
-  bindActionPromise: Ember.on('init', function() {
+  bindActionPromise: Ember.on('init', Ember.observer('action', function() {
     var promisePath = '_parentView.context.' + this.get('action') + 'Promise';
     this.set('actionPromiseBinding', Ember.bind(this, 'actionPromise', promisePath));
-  }),
+  })),
 
   handleActionPromise: Ember.observer('actionPromise', function() {
-    var _this = this;
-    this.get('actionPromise').then(function() {
+    var _this = this,
+        actionPromise = this.get('actionPromise');
+    if (!actionPromise) return;
+    actionPromise.then(function() {
       _this.set('textState', 'resolved');
     }).catch(function() {
       _this.set('textState', 'rejected');
