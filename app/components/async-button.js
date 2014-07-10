@@ -12,6 +12,10 @@ export default Ember.Component.extend({
   click: function() {
     this.sendAction();
     this.set('textState', 'pending');
+
+    // If this is part of a form, it will preform an HTML form
+    // submission
+    return false;
   },
 
   text: Ember.computed('textState', 'default', 'pending', 'resolved', 'rejected', function() {
