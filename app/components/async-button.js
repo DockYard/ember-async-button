@@ -10,7 +10,7 @@ export default Ember.Component.extend({
   disabled: Ember.computed.equal('textState','pending'),
 
   click: function() {
-    this.sendAction();
+    this.sendAction('action', this);
     this.set('textState', 'pending');
 
     // If this is part of a form, it will preform an HTML form
@@ -22,17 +22,12 @@ export default Ember.Component.extend({
     return this.getWithDefault(this.textState, this.get('default'));
   }),
 
-  bindActionPromise: Ember.on('init', function() {
-    var promisePath = '_parentView.context.' + this.get('action') + 'Promise';
-    this.set('actionPromiseBinding', Ember.bind(this, 'actionPromise', promisePath));
-  }),
-
-  handleActionPromise: Ember.observer('actionPromise', function() {
+  handleActionPromise: Ember.observer('promise', function() {
     var _this = this;
-    this.get('actionPromise').then(function() {
+    this.get('promise').then(function() {
       _this.set('textState', 'resolved');
     }).catch(function() {
       _this.set('textState', 'rejected');
     });
-  }),
+  })
 });
