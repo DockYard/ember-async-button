@@ -1,6 +1,6 @@
 # Ember CLI Async Button
 
-[See a demo](http://emberjs.jsbin.com/vomuzexe/1)
+[See a demo](http://jsbin.com/tonap/1)
 
 ## About ##
 
@@ -28,10 +28,10 @@ given in the helper.
 ```js
 Ember.Controller.extend({
   actions: {
-    save: function() {
+    save: function(button) {
       var promise = this.get('model').save();
 
-      this.set('savePromise', promise);
+      button.set('promise', promise);
 
       promise.then(function() {
         ...
@@ -41,10 +41,9 @@ Ember.Controller.extend({
 });
 ```
 
-Make special note of `this.set('savePromise', promise);` In order for
+Make special note of `button.set('promise', promise);` In order for
 `async-button` to work correctly the promise in the action must be
-assigned to the property of `<actionName>Promise`. So if you are using
-an action named `destroyRecord` you need to assign to `destroyRecordPromise`.
+assigned to the property of `promise` on the parameter passed in.
 
 ### Options ###
 
