@@ -10,7 +10,10 @@ export default Ember.Component.extend({
   disabled: Ember.computed.equal('textState','pending'),
 
   click: function() {
-    this.sendAction('action', this);
+    var _this = this;
+    this.sendAction('action', function(promise){
+      _this.set('promise', promise);
+    });
     this.set('textState', 'pending');
 
     // If this is part of a form, it will preform an HTML form

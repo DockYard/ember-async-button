@@ -1,6 +1,6 @@
 # Ember CLI Async Button
 
-[See a demo](http://jsbin.com/tonap/1)
+[See a demo](http://jsbin.com/vijen/1)
 
 ## About ##
 
@@ -28,10 +28,10 @@ given in the helper.
 ```js
 Ember.Controller.extend({
   actions: {
-    save: function(button) {
+    save: function(callback) {
       var promise = this.get('model').save();
 
-      button.set('promise', promise);
+      callback(promise);
 
       promise.then(function() {
         ...
@@ -41,9 +41,9 @@ Ember.Controller.extend({
 });
 ```
 
-Make special note of `button.set('promise', promise);` In order for
+Make special note of `callback(promise);` In order for
 `async-button` to work correctly the promise in the action must be
-assigned to the property of `promise` on the parameter passed in.
+passed back to the `callback` function that is passed in.
 
 ### Options ###
 
