@@ -2,6 +2,8 @@
 
 [See a demo](http://jsbin.com/vijen/1)
 
+![Build](https://travis-ci.org/dockyard/ember-cli-async-button.svg?branch=master)
+
 ## About ##
 
 When running async actions ensuring disabling of the button,
