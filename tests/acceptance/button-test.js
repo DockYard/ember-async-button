@@ -21,7 +21,7 @@ test('button resolves', function() {
     ok(Ember.$('button.async-button').text().indexOf('Saving...') > -1);
     Ember.run.later(function() {
       ok(Ember.$('button.async-button').text().indexOf('Saved!') > -1);
-    }, 10);
+    }, 20);
   });
 });
 
@@ -36,7 +36,7 @@ test('button fails', function() {
       ok(Ember.$('button.async-button').text().indexOf('Saving...') > -1);
       Ember.run.later(function() {
         ok(Ember.$('button.async-button').text().indexOf('Fail!') > -1);
-      }, 10);
+      }, 20);
     });
   });
 });

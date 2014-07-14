@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   actions: {
-    save: function() {
+    save: function(callback) {
       var _this = this;
       var promise = new Ember.RSVP.Promise(function(resolve, reject) {
         if (_this.get('rejectPromise')) {
@@ -15,8 +15,7 @@ export default Ember.Controller.extend({
           }, _this.get('timeoutLength'));
         }
       });
-
-      this.set('savePromise', promise);
+      callback(promise);
     }
   }
 });
