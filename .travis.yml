@@ -1,4 +1,6 @@
 ---
+language: node_js
+
 sudo: false
 
 cache:
@@ -6,7 +8,9 @@ cache:
     - node_modules
 
 install:
-  - "npm install && bower install"
+  - npm install
+  - npm install -g bower
+  - bower install
 
 script:
   - npm test
