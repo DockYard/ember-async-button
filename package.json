@@ -4,11 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ember test"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/dockyard/ember-cli-async-button.git"
+  },
+  "ember-addon": {
+    "paths": [
+      "."
+    ]
   },
   "keywords": [
     "ember-addon"
@@ -18,5 +23,16 @@
   "bugs": {
     "url": "https://github.com/dockyard/ember-cli-async-button/issues"
   },
-  "homepage": "https://github.com/dockyard/ember-cli-async-button"
+  "homepage": "https://github.com/dockyard/ember-cli-async-button",
+  "devDependencies": {
+    "body-parser": "^1.4.3",
+    "broccoli-ember-hbs-template-compiler": "^1.5.0",
+    "broccoli-file-remover": "^0.2.2",
+    "broccoli-merge-trees": "^0.1.4",
+    "broccoli-unwatched-tree": "^0.1.1",
+    "ember-cli": "stefanpenner/ember-cli",
+    "express": "^4.4.5",
+    "originate": "^0.1.5",
+    "ember-cli-ic-ajax": "0.1.1"
+  }
 }

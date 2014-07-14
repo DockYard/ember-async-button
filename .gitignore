@@ -6,6 +6,7 @@
 
 # dependencies
 /node_modules
+/vendor
 
 # misc
 /.sass-cache
