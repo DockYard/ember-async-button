@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     });
     this.set('textState', 'pending');
 
-    // If this is part of a form, it will preform an HTML form
+    // If this is part of a form, it will perform an HTML form
     // submission
     return false;
   },
