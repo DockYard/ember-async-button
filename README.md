@@ -65,7 +65,13 @@ Special text  used while the promise is running. If not provided will use the `d
 
 #### `resolved` ####
 
+*Deprecated! Use [fulfilled](#fulfilled)*
+
 Special text  used if the promise is resolved. If not provided will use the `default` value.
+
+#### `fulfilled` ####
+
+Special text  used if the promise is fulfilled. If not provided will use the `default` value.
 
 #### `rejected` ####
 
@@ -78,7 +84,7 @@ dynamic class is assigned during one of the four states:
 
 * `default`
 * `pending`
-* `resolved`
+* `fulfilled`
 * `rejected`
 
 ## Authors ##
