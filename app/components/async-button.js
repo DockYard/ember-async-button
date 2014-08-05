@@ -21,16 +21,26 @@ export default Ember.Component.extend({
     return false;
   },
 
-  text: Ember.computed('textState', 'default', 'pending', 'resolved', 'rejected', function() {
+  text: Ember.computed('textState', 'default', 'pending', 'resolved', 'fulfilled', 'rejected', function() {
     return this.getWithDefault(this.textState, this.get('default'));
   }),
 
   handleActionPromise: Ember.observer('promise', function() {
     var _this = this;
     this.get('promise').then(function() {
-      _this.set('textState', 'resolved');
+      _this.set('textState', 'fulfilled');
     }).catch(function() {
       _this.set('textState', 'rejected');
     });
-  })
+  }),
+
+  setUnknownProperty: function(key, value) {
+    if (key === 'resolved') {
+      Ember.deprecate("The 'resolved' property is deprecated. Please use 'fulfilled'", false);
+      key = 'fulfilled';
+    }
+
+    this[key] = null;
+    this.set(key, value);
+  }
 });
