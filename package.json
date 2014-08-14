@@ -26,6 +26,7 @@
     "broccoli-merge-trees": "^0.1.4",
     "broccoli-unwatched-tree": "^0.1.1",
     "ember-cli": "stefanpenner/ember-cli",
+    "ember-cli-qunit": "0.0.3",
     "express": "^4.4.5",
     "originate": "^0.1.5",
     "ember-cli-ic-ajax": "0.1.1"
