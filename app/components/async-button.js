@@ -5,8 +5,9 @@ export default Ember.Component.extend({
   textState: 'default',
   classNames: ['async-button'],
   classNameBindings: ['textState'],
-  attributeBindings: ['disabled'],
+  attributeBindings: ['disabled', 'type'],
 
+  type: 'submit',
   disabled: Ember.computed.equal('textState','pending'),
 
   click: function() {

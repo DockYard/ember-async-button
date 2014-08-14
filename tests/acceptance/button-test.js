@@ -40,3 +40,13 @@ test('button fails', function() {
     });
   });
 });
+
+test('button type is set', function() {
+  visit('/');
+
+  andThen(function() {
+    ok(Ember.$('button.async-button[type="submit"]').length === 1);
+    ok(Ember.$('button.async-button[type="button"]').length === 1);
+    ok(Ember.$('button.async-button[type="reset"]').length === 1);
+  });
+});
