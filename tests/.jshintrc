@@ -43,7 +43,8 @@
     "andThen",
     "currentURL",
     "currentPath",
-    "currentRouteName"
+    "currentRouteName",
+    "Promise"
   ],
   "node" : false,
   "browser" : false,

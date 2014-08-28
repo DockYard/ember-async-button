@@ -2,7 +2,8 @@
   "predef": {
     "document": true,
     "window": true,
-    "DummyENV": true
+    "DummyENV": true,
+    "Promise": true
   },
   "browser" : true,
   "boss" : true,
