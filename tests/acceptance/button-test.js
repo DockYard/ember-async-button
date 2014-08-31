@@ -21,7 +21,7 @@ test('button resolves', function() {
     ok(Ember.$('button.async-button').text().indexOf('Saving...') > -1);
     Ember.run.later(function() {
       ok(Ember.$('button.async-button').text().indexOf('Saved!') > -1);
-    }, 20);
+    }, 50);
   });
 });
 
