@@ -1,12 +1,12 @@
-# Contribution Guidelines #
+# Contribution Guidelines
 
-## Submitting a new issue ##
+## Submitting a new issue
 
 If you want to ensure that your issue gets fixed *fast* you should
 attempt to reproduce the issue in an isolated example application that
 you can share.
 
-## Making a pull request ##
+## Making a pull request
 
 If you'd like to submit a pull request please adhere to the following:
 
@@ -19,3 +19,16 @@ Failure to do so will result in an immediate closing of the pull
 request. If you update and rebase the pull request to follow the
 guidelines your pull request will be re-opened and considered for
 inclusion.
+
+## Running the test suite
+
+Execute the tests in a browser or terminal:
+
+* `non start` then launch <http://localhost:4200/tests>
+* `npm test`
+
+## View the dummy app
+
+See the component in action:
+
+* `npm start` then launch <http://localhost:4200>
