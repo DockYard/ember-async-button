@@ -1,5 +1,6 @@
 {{input checked=rejectPromise type="checkbox" class="rejectPromise"}}
-{{async-button action="save" default="Save" pending="Saving..." fulfilled="Saved!" rejected="Fail!"}}
+{{input checked=dirtyState type="checkbox" class="dirtyState"}}
+{{async-button action="save" default="Save" pending="Saving..." fulfilled="Saved!" rejected="Fail!" reset=dirtyState}}
 {{#async-button action="save" class="template"}}
   This is the template content.
 {{/async-button}}
