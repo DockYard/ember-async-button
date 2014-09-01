@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'button',
   textState: 'default',
+  reset: false,
   classNames: ['async-button'],
   classNameBindings: ['textState'],
   attributeBindings: ['disabled', 'type'],
@@ -24,6 +25,12 @@ export default Ember.Component.extend({
 
   text: Ember.computed('textState', 'default', 'pending', 'resolved', 'fulfilled', 'rejected', function() {
     return this.getWithDefault(this.textState, this.get('default'));
+  }),
+
+  resetObserver: Ember.observer('textState', 'reset', function(){
+    if(this.get('reset') && ['resolved', 'rejected', 'fulfilled'].contains(this.get('textState'))){
+      this.set('textState', 'default');
+    }
   }),
 
   handleActionPromise: Ember.observer('promise', function() {

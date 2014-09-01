@@ -85,6 +85,10 @@ Special text  used if the promise is fulfilled. If not provided will use the `de
 
 Special text  used if the promise is rejected. If not provided will use the `default` value.
 
+#### `reset` ####
+
+Flag telling the button to reset to the default state once `resolved` or `rejected`. A typical use case is to bind this attribute with ember-data `isDirty` flag.
+
 ### Styling ###
 
 A class of `async-button` is assigned to the button. An additional
