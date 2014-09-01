@@ -24,7 +24,15 @@ In a template use the `async-button` helper
 {{async-button action="save" default="Save" pending="Saving..."}}
 ```
 
-In the controller for the template you must create an action that matches the name 
+The component can also take a block:
+
+```handlebars
+{{#async-button action="save"}}
+  Template content.
+{{/async-button}}
+```
+
+In the controller for the template you must create an action that matches the name
 given in the helper.
 
 ```js
