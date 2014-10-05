@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{BASE_TAG}}
+    {{content-for 'head'}}
 
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/dummy.css">
@@ -37,12 +37,6 @@
     <script src="assets/test-support.js"></script>
     <script src="assets/dummy.js"></script>
     <script src="testem.js"></script>
-    <script>
-      window.DummyENV = require('dummy/config/environment')['default'];
-      window.EmberENV = window.DummyENV.EmberENV;
-
-      require('dummy/tests/test-helper');
-    </script>
     <script src="assets/test-loader.js"></script>
   </body>
 </html>
