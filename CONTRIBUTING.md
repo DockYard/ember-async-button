@@ -24,7 +24,7 @@ inclusion.
 
 Execute the tests in a browser or terminal:
 
-* `non start` then launch <http://localhost:4200/tests>
+* `npm start` then launch <http://localhost:4200/tests>
 * `npm test`
 
 ## View the dummy app

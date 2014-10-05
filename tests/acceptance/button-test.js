@@ -52,6 +52,22 @@ test('button type is set', function() {
   });
 });
 
+test('button reset', function() {
+  visit('/');
+  click('button.async-button');
+
+  andThen(function() {
+    contains(find('button.async-button'), 'Saved!');
+    click('.dirtyState');
+    contains(find('button.async-button'), 'Save');
+    click('.dirtyState');
+    click('button.async-button');
+    andThen(function() {
+      contains(find('button.async-button'), 'Saved!');
+    });
+  });
+});
+
 test('Can render a template instead', function() {
   visit('/');
 
