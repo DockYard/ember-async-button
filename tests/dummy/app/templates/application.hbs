@@ -5,5 +5,16 @@
 {{#async-button action="save" class="template"}}
   This is the template content.
 {{/async-button}}
+<div id="set-type">
+{{async-button}}
 {{async-button type="button"}}
 {{async-button type="reset"}}
+</div>
+<div id="promise-bound">
+{{async-button promiseBinding=promise default="Save" pending="Saving..." fulfilled="Saved!" rejected="Fail!"}}
+</div>
+<div id="promise-bound-hides">
+{{#if shown}}
+{{async-button promiseBinding=promise default="Save" pending="Saving..." fulfilled="Saved!" rejected="Fail!"}}
+{{/if}}
+</div>

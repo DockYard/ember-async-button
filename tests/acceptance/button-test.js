@@ -26,6 +26,78 @@ test('button resolves', function() {
   });
 });
 
+test('button bound to controller promise resolves', function() {
+  var promise = new Ember.RSVP.Promise(function(resolve, reject) {
+    resolve();
+  });
+  visit('/');
+
+  andThen(function() {
+    contains(find('#promise-bound button.async-button'), 'Save');
+    App.__container__.lookup("controller:application").set("promise", promise);
+    Ember.run.later(function() {
+      contains(find('#promise-bound button.async-button'), 'Saved!');
+    });
+  });
+});
+
+test('button bound to controller promise fails', function() {
+  var promise = new Ember.RSVP.Promise(function(resolve, reject) {
+    reject();
+  });
+  visit('/');
+
+  andThen(function() {
+    contains(find('#promise-bound button.async-button'), 'Save');
+    App.__container__.lookup("controller:application").set("promise", promise);
+    Ember.run.later(function() {
+      contains(find('#promise-bound button.async-button'), 'Fail!');
+    });
+  });
+});
+
+test('button bound to controller promise hidden on resolve', function() {
+  var resolve;
+  var controller = App.__container__.lookup("controller:application"),
+  promise = new Ember.RSVP.Promise(function(r) {
+    resolve = r;
+  });
+  controller.set('shown', true);
+  visit('/');
+
+  andThen(function() {
+    controller.set("promise", promise);
+    equal(find('#promise-bound-hides button.async-button').length, 1);
+    contains(find('#promise-bound-hides button.async-button'), 'Save');
+    controller.set('shown', false);
+    Ember.run.later(function() {
+      resolve();
+      equal(find('#promise-bound-hides button.async-button').length, 0);
+    });
+  });
+});
+
+test('button bound to controller promise hidden on reject', function() {
+  var reject;
+  var controller = App.__container__.lookup("controller:application"),
+  promise = new Ember.RSVP.Promise(function(resolve, r) {
+    reject = r;
+  });
+  controller.set('shown', true);
+  visit('/');
+
+  andThen(function() {
+    controller.set("promise", promise);
+    equal(find('#promise-bound-hides button.async-button').length, 1);
+    contains(find('#promise-bound-hides button.async-button'), 'Save');
+    controller.set('shown', false);
+    Ember.run.later(function() {
+      reject();
+      equal(find('#promise-bound-hides button.async-button').length, 0);
+    });
+  });
+});
+
 test('button fails', function() {
   visit('/');
 
@@ -46,9 +118,9 @@ test('button type is set', function() {
   visit('/');
 
   andThen(function() {
-    equal(find('button.async-button[type="submit"]').length, 2);
-    equal(find('button.async-button[type="button"]').length, 1);
-    equal(find('button.async-button[type="reset"]').length, 1);
+    equal(find('#set-type button.async-button[type="submit"]').length, 1);
+    equal(find('#set-type button.async-button[type="button"]').length, 1);
+    equal(find('#set-type button.async-button[type="reset"]').length, 1);
   });
 });
 

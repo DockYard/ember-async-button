@@ -36,9 +36,13 @@ export default Ember.Component.extend({
   handleActionPromise: Ember.observer('promise', function() {
     var _this = this;
     this.get('promise').then(function() {
-      _this.set('textState', 'fulfilled');
+      if (!_this.isDestroyed) {
+        _this.set('textState', 'fulfilled');
+      }
     }).catch(function() {
-      _this.set('textState', 'rejected');
+      if (!_this.isDestroyed) {
+        _this.set('textState', 'rejected');
+      }
     });
   }),
 
