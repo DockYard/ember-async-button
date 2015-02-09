@@ -2,11 +2,12 @@ import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import contains from '../helpers/contains';
 
-var App;
+var App, AppController;
 
 module('Acceptance: AsyncButton', {
   setup: function() {
     App = startApp();
+    AppController = App.__container__.lookup("controller:application");
   },
   teardown: function() {
     Ember.run(App, 'destroy');
@@ -20,39 +21,36 @@ test('button resolves', function() {
     contains(find('button.async-button'), 'Save');
     click('button.async-button');
     contains(find('button.async-button'), 'Saving...');
-    Ember.run.later(function() {
-      contains(find('button.async-button'), 'Saved!');
-    }, 50);
+  });
+
+  andThen(function() {
+    contains(find('button.async-button'), 'Saved!');
   });
 });
 
 test('button bound to controller promise resolves', function() {
-  var promise = new Ember.RSVP.Promise(function(resolve, reject) {
-    resolve();
-  });
   visit('/');
 
   andThen(function() {
     contains(find('#promise-bound button.async-button'), 'Save');
-    App.__container__.lookup("controller:application").set("promise", promise);
-    Ember.run.later(function() {
-      contains(find('#promise-bound button.async-button'), 'Saved!');
-    });
+    AppController.set("promise", Ember.RSVP.resolve());
+  });
+
+  andThen(function() {
+    contains(find('#promise-bound button.async-button'), 'Saved!');
   });
 });
 
 test('button bound to controller promise fails', function() {
-  var promise = new Ember.RSVP.Promise(function(resolve, reject) {
-    reject();
-  });
   visit('/');
 
   andThen(function() {
     contains(find('#promise-bound button.async-button'), 'Save');
-    App.__container__.lookup("controller:application").set("promise", promise);
-    Ember.run.later(function() {
-      contains(find('#promise-bound button.async-button'), 'Fail!');
-    });
+    AppController.set("promise", Ember.RSVP.reject());
+  });
+
+  andThen(function() {
+    contains(find('#promise-bound button.async-button'), 'Fail!');
   });
 });
 
@@ -104,13 +102,15 @@ test('button fails', function() {
   andThen(function() {
     contains(find('button.async-button'), 'Save');
     click('.rejectPromise');
-    andThen(function() {
-      click('button.async-button');
-      contains(find('button.async-button'), 'Saving...');
-      Ember.run.later(function() {
-        contains(find('button.async-button'), 'Fail!');
-      }, 20);
-    });
+  });
+
+  andThen(function() {
+    click('button.async-button');
+    contains(find('button.async-button'), 'Saving...');
+  });
+
+  andThen(function() {
+    contains(find('button.async-button'), 'Fail!');
   });
 });
 
@@ -134,9 +134,10 @@ test('button reset', function() {
     contains(find('button.async-button'), 'Save');
     click('.dirtyState');
     click('button.async-button');
-    andThen(function() {
-      contains(find('button.async-button'), 'Saved!');
-    });
+  });
+
+  andThen(function() {
+    contains(find('button.async-button'), 'Saved!');
   });
 });
 
