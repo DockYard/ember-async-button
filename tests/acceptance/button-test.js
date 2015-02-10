@@ -54,45 +54,41 @@ test('button bound to controller promise fails', function() {
   });
 });
 
-test('button bound to controller promise hidden on resolve', function() {
-  var resolve;
-  var controller = App.__container__.lookup("controller:application"),
+test('app should not crash due to a race condition on resolve', function() {
+  var resolve,
   promise = new Ember.RSVP.Promise(function(r) {
     resolve = r;
   });
-  controller.set('shown', true);
+  AppController.set('shown', true);
   visit('/');
 
   andThen(function() {
-    controller.set("promise", promise);
-    equal(find('#promise-bound-hides button.async-button').length, 1);
-    contains(find('#promise-bound-hides button.async-button'), 'Save');
-    controller.set('shown', false);
-    Ember.run.later(function() {
-      resolve();
-      equal(find('#promise-bound-hides button.async-button').length, 0);
-    });
+    AppController.set("promise", promise);
+    AppController.set('shown', false);
+  });
+
+  andThen(function() {
+    resolve();
+    ok(true, "App should not crash due to a race condition on resolve");
   });
 });
 
-test('button bound to controller promise hidden on reject', function() {
-  var reject;
-  var controller = App.__container__.lookup("controller:application"),
+test('app should not crash due to a race condition on reject', function() {
+  var reject,
   promise = new Ember.RSVP.Promise(function(resolve, r) {
     reject = r;
   });
-  controller.set('shown', true);
+  AppController.set('shown', true);
   visit('/');
 
   andThen(function() {
-    controller.set("promise", promise);
-    equal(find('#promise-bound-hides button.async-button').length, 1);
-    contains(find('#promise-bound-hides button.async-button'), 'Save');
-    controller.set('shown', false);
-    Ember.run.later(function() {
-      reject();
-      equal(find('#promise-bound-hides button.async-button').length, 0);
-    });
+    AppController.set("promise", promise);
+    AppController.set('shown', false);
+  });
+
+  andThen(function() {
+    reject();
+    ok(true, "App should not crash due to a race condition on reject");
   });
 });
 
