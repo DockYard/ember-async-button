@@ -1,3 +1,5 @@
+import QUnit from 'qunit';
+
 export default function(actual, expected, message) {
   var text;
   if (actual.text) {
