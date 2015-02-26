@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import contains from '../helpers/contains';
+import { module, test } from 'qunit';
+
 
 var App, AppController;
 
@@ -54,7 +56,7 @@ test('button bound to controller promise fails', function() {
   });
 });
 
-test('app should not crash due to a race condition on resolve', function() {
+test('app should not crash due to a race condition on resolve', function(assert) {
   var resolve,
   promise = new Ember.RSVP.Promise(function(r) {
     resolve = r;
@@ -69,11 +71,11 @@ test('app should not crash due to a race condition on resolve', function() {
 
   andThen(function() {
     resolve();
-    ok(true, "App should not crash due to a race condition on resolve");
+    assert.ok(true, "App should not crash due to a race condition on resolve");
   });
 });
 
-test('app should not crash due to a race condition on reject', function() {
+test('app should not crash due to a race condition on reject', function(assert) {
   var reject,
   promise = new Ember.RSVP.Promise(function(resolve, r) {
     reject = r;
@@ -88,7 +90,7 @@ test('app should not crash due to a race condition on reject', function() {
 
   andThen(function() {
     reject();
-    ok(true, "App should not crash due to a race condition on reject");
+    assert.ok(true, "App should not crash due to a race condition on reject");
   });
 });
 
@@ -110,13 +112,13 @@ test('button fails', function() {
   });
 });
 
-test('button type is set', function() {
+test('button type is set', function(assert) {
   visit('/');
 
   andThen(function() {
-    equal(find('#set-type button.async-button[type="submit"]').length, 1);
-    equal(find('#set-type button.async-button[type="button"]').length, 1);
-    equal(find('#set-type button.async-button[type="reset"]').length, 1);
+    assert.equal(find('#set-type button.async-button[type="submit"]').length, 1);
+    assert.equal(find('#set-type button.async-button[type="button"]').length, 1);
+    assert.equal(find('#set-type button.async-button[type="reset"]').length, 1);
   });
 });
 
