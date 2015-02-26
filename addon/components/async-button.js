@@ -15,13 +15,35 @@ export default Ember.Component.extend({
 
   click: function() {
     var _this = this;
-    this.sendAction('action', function(promise){
+    var rawActionArguments = this.getWithDefault('_actionArgs', []);
+    var actionArgumentTypes = this.getWithDefault('_argTypes', []);
+
+    function callbackHandler(promise) {
       _this.set('promise', promise);
-    });
+    }
+
+    var actionArguments = ['action', callbackHandler];
+
+    // Some of the arguments passed in might be bound values (ID type according to
+    // the option types stored in _argTypes). If so, we get the stream and retrieve
+    // the value when the button is clicked. Once the Stream API is public,
+    // the helper will be converted to pass in a concatenated array of streams
+    for (var index = 0, length = rawActionArguments.length; index < length; index++) {
+      var value = rawActionArguments[index];
+
+      if (actionArgumentTypes[index] === 'ID') {
+        value = this._parentView.getStream(value).value();
+      }
+
+      actionArguments.push(value);
+    }
+
+
+    this.sendAction.apply(this, actionArguments);
     this.set('textState', 'pending');
 
     // If this is part of a form, it will perform an HTML form
-    // submission
+    // submission without returning false to prevent action bubbling
     return false;
   },
 

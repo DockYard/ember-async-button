@@ -12,6 +12,9 @@ module('Acceptance: AsyncButton', {
     AppController = App.__container__.lookup("controller:application");
   },
   teardown: function() {
+    AppController.set('actionArgument1', undefined);
+    AppController.set('actionArgument2', undefined);
+    AppController.set('actionArgument3', undefined);
     Ember.run(App, 'destroy');
   }
 });
@@ -40,6 +43,47 @@ test('button bound to controller promise resolves', function() {
 
   andThen(function() {
     contains(find('#promise-bound button.async-button'), 'Saved!');
+  });
+});
+
+test('parameters passed to the helper are passed to the action', function(assert) {
+  visit('/');
+
+  assert.equal(AppController.get('actionArgument1'), undefined);
+  assert.equal(AppController.get('actionArgument2'), undefined);
+  assert.equal(AppController.get('actionArgument3'), undefined);
+
+  andThen(function() {
+    click('button.arg-button');
+  });
+
+  andThen(function() {
+    assert.equal(AppController.get('actionArgument1'), 'argument 1');
+    assert.equal(AppController.get('actionArgument2'), 'argument 2');
+    assert.equal(AppController.get('actionArgument3'), 'argument 3');
+  });
+});
+
+test('dynamic parameters passed to the helper are passed to the action', function(assert) {
+  visit('/');
+
+  assert.equal(AppController.get('actionArgument3'), undefined);
+
+  andThen(function() {
+    click('button.arg-button');
+  });
+
+  andThen(function() {
+    assert.equal(AppController.get('actionArgument3'), 'argument 3');
+  });
+
+  andThen(function() {
+    AppController.set('dynamicArgument', 'changed argument');
+  });
+  click('button.arg-button');
+
+  andThen(function() {
+    assert.equal(AppController.get('actionArgument3'), 'changed argument');
   });
 });
 
