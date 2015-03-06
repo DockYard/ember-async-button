@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import contains from '../helpers/contains';
+import { module, test } from 'qunit';
+
 
 var App, AppController;
 
@@ -10,6 +12,9 @@ module('Acceptance: AsyncButton', {
     AppController = App.__container__.lookup("controller:application");
   },
   teardown: function() {
+    AppController.set('actionArgument1', undefined);
+    AppController.set('actionArgument2', undefined);
+    AppController.set('actionArgument3', undefined);
     Ember.run(App, 'destroy');
   }
 });
@@ -41,6 +46,47 @@ test('button bound to controller promise resolves', function() {
   });
 });
 
+test('parameters passed to the helper are passed to the action', function(assert) {
+  visit('/');
+
+  assert.equal(AppController.get('actionArgument1'), undefined);
+  assert.equal(AppController.get('actionArgument2'), undefined);
+  assert.equal(AppController.get('actionArgument3'), undefined);
+
+  andThen(function() {
+    click('button.arg-button');
+  });
+
+  andThen(function() {
+    assert.equal(AppController.get('actionArgument1'), 'argument 1');
+    assert.equal(AppController.get('actionArgument2'), 'argument 2');
+    assert.equal(AppController.get('actionArgument3'), 'argument 3');
+  });
+});
+
+test('dynamic parameters passed to the helper are passed to the action', function(assert) {
+  visit('/');
+
+  assert.equal(AppController.get('actionArgument3'), undefined);
+
+  andThen(function() {
+    click('button.arg-button');
+  });
+
+  andThen(function() {
+    assert.equal(AppController.get('actionArgument3'), 'argument 3');
+  });
+
+  andThen(function() {
+    AppController.set('dynamicArgument', 'changed argument');
+  });
+  click('button.arg-button');
+
+  andThen(function() {
+    assert.equal(AppController.get('actionArgument3'), 'changed argument');
+  });
+});
+
 test('button bound to controller promise fails', function() {
   visit('/');
 
@@ -54,7 +100,7 @@ test('button bound to controller promise fails', function() {
   });
 });
 
-test('app should not crash due to a race condition on resolve', function() {
+test('app should not crash due to a race condition on resolve', function(assert) {
   var resolve,
   promise = new Ember.RSVP.Promise(function(r) {
     resolve = r;
@@ -69,11 +115,11 @@ test('app should not crash due to a race condition on resolve', function() {
 
   andThen(function() {
     resolve();
-    ok(true, "App should not crash due to a race condition on resolve");
+    assert.ok(true, "App should not crash due to a race condition on resolve");
   });
 });
 
-test('app should not crash due to a race condition on reject', function() {
+test('app should not crash due to a race condition on reject', function(assert) {
   var reject,
   promise = new Ember.RSVP.Promise(function(resolve, r) {
     reject = r;
@@ -88,7 +134,7 @@ test('app should not crash due to a race condition on reject', function() {
 
   andThen(function() {
     reject();
-    ok(true, "App should not crash due to a race condition on reject");
+    assert.ok(true, "App should not crash due to a race condition on reject");
   });
 });
 
@@ -110,13 +156,13 @@ test('button fails', function() {
   });
 });
 
-test('button type is set', function() {
+test('button type is set', function(assert) {
   visit('/');
 
   andThen(function() {
-    equal(find('#set-type button.async-button[type="submit"]').length, 1);
-    equal(find('#set-type button.async-button[type="button"]').length, 1);
-    equal(find('#set-type button.async-button[type="reset"]').length, 1);
+    assert.equal(find('#set-type button.async-button[type="submit"]').length, 1);
+    assert.equal(find('#set-type button.async-button[type="button"]').length, 1);
+    assert.equal(find('#set-type button.async-button[type="reset"]').length, 1);
   });
 });
 

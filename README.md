@@ -1,6 +1,6 @@
 # Ember CLI Async Button
 
-[See a demo](http://jsbin.com/vijen/1)
+[See a demo](http://jsbin.com/qokogasilu/1)
 
 [![Build](https://travis-ci.org/dockyard/ember-cli-async-button.svg?branch=master)](https://travis-ci.org/dockyard/ember-cli-async-button)
 
@@ -22,6 +22,8 @@ In a template use the `async-button` helper
 
 ```handlebars
 {{async-button action="save" default="Save" pending="Saving..."}}
+{{! or if you have arguments to be passed to the action}}
+{{async-button model "another agrument" ... action="save" default="Save" pending="Saving..."}}
 ```
 
 The component can also take a block:
@@ -32,13 +34,24 @@ The component can also take a block:
 {{/async-button}}
 ```
 
-In the controller for the template you must create an action that matches the name
-given in the helper.
+In the controller for the template, you must create an action that matches the name
+given in the helper. If you passed the helper arguments, they will
+follow the callback argument.
 
 ```js
 Ember.Controller.extend({
   actions: {
     save: function(callback) {
+      var promise = this.get('model').save();
+
+      callback(promise);
+
+      promise.then(function() {
+        ...
+      });
+    }
+    // If you passed async-button arguments
+    save: function(callback, firstArg, secondArg, ...) {
       var promise = this.get('model').save();
 
       callback(promise);
