@@ -6,7 +6,7 @@ export default Ember.Component.extend({
   reset: false,
   classNames: ['async-button'],
   classNameBindings: ['textState'],
-  attributeBindings: ['disabled', 'type'],
+  attributeBindings: ['disabled', 'type', '_href:href'],
 
   type: 'submit',
   disabled: Ember.computed.equal('textState','pending'),
@@ -54,5 +54,13 @@ export default Ember.Component.extend({
 
     this[key] = null;
     this.set(key, value);
-  }
+  },
+
+  _href: Ember.computed('href', function() {
+    var href = this.get('href');
+    if (href) { return href; }
+
+    var tagName = this.get('tagName').toLowerCase();
+    if (tagName === 'a' && href === undefined) { return ''; }
+  })
 });

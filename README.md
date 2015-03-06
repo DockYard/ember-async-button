@@ -99,6 +99,23 @@ dynamic class is assigned during one of the four states:
 * `fulfilled`
 * `rejected`
 
+### The `href` attribute of the `a` tag ###
+
+You can adjust the button's tag by passing the `tagName` option:
+
+```handlebars
+{{async-button tagName="a" action="save" default="Save" pending="Saving..."}}
+```
+
+When you set `tagName` to `a`, the element will obtain an empty `href` attribute. This is necessary to enable the link behavior of the element, i. e. color, underlining and hover effect.
+
+You can of course override `href` if you need it for some reason:
+
+
+```handlebars
+{{async-button tagName="a" href="custom" action="save" default="Save" pending="Saving..."}}
+```
+
 ## Authors ##
 
 * [Brian Cardarella](http://twitter.com/bcardarella)
