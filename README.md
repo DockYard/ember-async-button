@@ -124,9 +124,14 @@ When you set `tagName` to `a`, the element will obtain an empty `href` attribute
 
 You can of course override `href` if you need it for some reason:
 
-
 ```handlebars
 {{async-button tagName="a" href="custom" action="save" default="Save" pending="Saving..."}}
+```
+
+If you don't want a `href` attribute on your `a` button, set it to `false`:
+
+```handlebars
+{{async-button tagName="a" href=false action="save" default="Save" pending="Saving..."}}
 ```
 
 ## Authors ##
