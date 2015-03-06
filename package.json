@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-async-button",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "When running async actions ensuring disabling of the button, re-enabling, and handling promise rejections is pretty boilerplate. This component packages up that behavior.",
   "directories": {
     "doc": "doc",
@@ -11,11 +11,11 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "",
+  "repository": "https://github.com/dockyard/ember-cli-async-button",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Brian Cardarella",
   "license": "MIT",
   "dependencies": {
     "ember-cli-htmlbars": "0.7.4"
