@@ -1,6 +1,10 @@
 import Ember from 'ember';
 import layout from '../templates/components/async-button';
 
+var get = Ember.get;
+var getWithDefault = Ember.getWithDefault;
+var set = Ember.set;
+
 export default Ember.Component.extend({
   layout: layout,
   tagName: 'button',
@@ -19,7 +23,7 @@ export default Ember.Component.extend({
     var actionArgumentTypes = this.getWithDefault('_argTypes', []);
 
     function callbackHandler(promise) {
-      _this.set('promise', promise);
+      set(_this, 'promise', promise);
     }
 
     var actionArguments = ['action', callbackHandler];
@@ -40,7 +44,7 @@ export default Ember.Component.extend({
 
 
     this.sendAction.apply(this, actionArguments);
-    this.set('textState', 'pending');
+    set(this, 'textState', 'pending');
 
     // If this is part of a form, it will perform an HTML form
     // submission without returning false to prevent action bubbling
@@ -48,24 +52,32 @@ export default Ember.Component.extend({
   },
 
   text: Ember.computed('textState', 'default', 'pending', 'resolved', 'fulfilled', 'rejected', function() {
-    return this.getWithDefault(this.textState, this.get('default'));
+    return getWithDefault(this, this.textState, get(this, 'default'));
   }),
 
   resetObserver: Ember.observer('textState', 'reset', function(){
-    if(this.get('reset') && ['resolved', 'rejected', 'fulfilled'].contains(this.get('textState'))){
-      this.set('textState', 'default');
+    var states = ['resolved', 'rejected', 'fulfilled'];
+    var found = false;
+    var textState = get(this, 'textState');
+
+    for (var idx = 0; idx < states.length && !found; idx++) {
+      found = (textState === states[idx]);
+    }
+
+    if(get(this, 'reset') && found){
+      set(this, 'textState', 'default');
     }
   }),
 
   handleActionPromise: Ember.observer('promise', function() {
     var _this = this;
-    this.get('promise').then(function() {
+    get(this, 'promise').then(function() {
       if (!_this.isDestroyed) {
-        _this.set('textState', 'fulfilled');
+        set(_this, 'textState', 'fulfilled');
       }
     }).catch(function() {
       if (!_this.isDestroyed) {
-        _this.set('textState', 'rejected');
+        set(_this, 'textState', 'rejected');
       }
     });
   }),
@@ -81,10 +93,10 @@ export default Ember.Component.extend({
   },
 
   _href: Ember.computed('href', function() {
-    var href = this.get('href');
+    var href = get(this, 'href');
     if (href) { return href; }
 
-    var tagName = this.get('tagName').toLowerCase();
+    var tagName = get(this, 'tagName').toLowerCase();
     if (tagName === 'a' && href === undefined) { return ''; }
   })
 });

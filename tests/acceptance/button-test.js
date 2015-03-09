@@ -1,8 +1,7 @@
 import Ember from 'ember';
+import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 import contains from '../helpers/contains';
-import { module, test } from 'qunit';
-
 
 var App, AppController;
 
@@ -138,7 +137,7 @@ test('app should not crash due to a race condition on reject', function(assert) 
   });
 });
 
-test('button fails', function() {
+test('button fails', function(assert) {
   visit('/');
 
   andThen(function() {
@@ -166,7 +165,7 @@ test('button type is set', function(assert) {
   });
 });
 
-test('button reset', function() {
+test('button reset', function(assert) {
   visit('/');
   click('button.async-button');
 
@@ -183,7 +182,7 @@ test('button reset', function() {
   });
 });
 
-test('Can render a template instead', function() {
+test('Can render a template instead', function(assert) {
   visit('/');
 
   andThen(function() {
