@@ -23,7 +23,7 @@ In a template use the `async-button` helper
 ```handlebars
 {{async-button action="save" default="Save" pending="Saving..."}}
 {{! or if you have arguments to be passed to the action}}
-{{async-button model "another agrument" ... action="save" default="Save" pending="Saving..."}}
+{{async-button model "another argument" ... action="save" default="Save" pending="Saving..."}}
 ```
 
 The component can also take a block:
