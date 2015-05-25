@@ -24,6 +24,9 @@ test('button resolves', function() {
   andThen(function() {
     contains(find('button.async-button'), 'Save');
     click('button.async-button');
+  });
+
+  andThen(function() {
     contains(find('button.async-button'), 'Saving...');
   });
 
@@ -147,6 +150,9 @@ test('button fails', function(assert) {
 
   andThen(function() {
     click('button.async-button');
+  });
+
+  andThen(function() {
     contains(find('button.async-button'), 'Saving...');
   });
 
@@ -159,9 +165,9 @@ test('button type is set', function(assert) {
   visit('/');
 
   andThen(function() {
-    assert.equal(find('#set-type button.async-button[type="submit"]').length, 1);
-    assert.equal(find('#set-type button.async-button[type="button"]').length, 1);
-    assert.equal(find('#set-type button.async-button[type="reset"]').length, 1);
+    assert.equal(find('#set-type button.async-button[type="submit"]').length, 1, 'should be type "submit"');
+    assert.equal(find('#set-type button.async-button[type="button"]').length, 1, 'should be type "button"');
+    assert.equal(find('#set-type button.async-button[type="reset"]').length, 1, 'should be type "reset"');
   });
 });
 
@@ -189,4 +195,3 @@ test('Can render a template instead', function(assert) {
     contains(find('button.template'), 'This is the template content.');
   });
 });
-
