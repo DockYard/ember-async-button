@@ -11,10 +11,10 @@
 {{async-button type="reset"}}
 </div>
 <div id="promise-bound">
-{{async-button promiseBinding=promise default="Save" pending="Saving..." fulfilled="Saved!" rejected="Fail!"}}
+{{async-button promise=promise default="Save" pending="Saving..." fulfilled="Saved!" rejected="Fail!"}}
 </div>
 <div id="promise-bound-hides">
 {{#if shown}}
-{{async-button promiseBinding=promise default="Save" pending="Saving..." fulfilled="Saved!" rejected="Fail!"}}
+{{async-button promise=promise default="Save" pending="Saving..." fulfilled="Saved!" rejected="Fail!"}}
 {{/if}}
 </div>
