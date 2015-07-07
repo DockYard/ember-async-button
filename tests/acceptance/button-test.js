@@ -24,6 +24,9 @@ test('button resolves', function() {
   andThen(function() {
     contains(find('button.async-button'), 'Save');
     click('button.async-button');
+  });
+
+  andThen(function() {
     contains(find('button.async-button'), 'Saving...');
   });
 
@@ -147,6 +150,9 @@ test('button fails', function(assert) {
 
   andThen(function() {
     click('button.async-button');
+  });
+
+  andThen(function() {
     contains(find('button.async-button'), 'Saving...');
   });
 

@@ -6,6 +6,7 @@ import {
 moduleForComponent('async-button', 'AsyncButtonComponent', {
   // specify the other units that are required for this test
   // needs: ['component:foo', 'helper:bar']
+  unit: true
 });
 
 // Default test
@@ -17,7 +18,7 @@ test('it renders', function(assert) {
   assert.equal(component._state, 'preRender');
 
   // appends the component to the page
-  this.append();
+  this.render();
   assert.equal(component._state, 'inDOM');
 });
 
@@ -26,7 +27,8 @@ test('tag name should be configurable', function(assert) {
   var component = this.subject({
     tagName: 'a'
   });
-  var $component = this.append();
+  this.render();
+  var $component = this.$();
   var tagName = $component.prop('tagName').toLowerCase();
   assert.equal(tagName, 'a');
 });
@@ -34,7 +36,8 @@ test('tag name should be configurable', function(assert) {
 test('non-a tag should not have a href attr by default', function(assert) {
   assert.expect(1);
   var component = this.subject();
-  var $component = this.append();
+  this.render();
+  var $component = this.$();
   var href = $component.attr('href');
   assert.equal(href, undefined);
 });
@@ -47,7 +50,8 @@ test(
     var component = this.subject({
       href: 'lol'
     });
-    var $component = this.append();
+    this.render();
+    var $component = this.$();
     var href = $component.attr('href');
     assert.equal(href, 'lol');
   }
@@ -58,7 +62,8 @@ test('a tag should have an empty href attr by default', function(assert) {
   var component = this.subject({
     tagName: 'a'
   });
-  var $component = this.append();
+  this.render();
+  var $component = this.$();
   var href = $component.attr('href');
   assert.equal(href, '');
 });
@@ -69,7 +74,8 @@ test('a tag: href attr should be configurable', function(assert) {
     tagName: 'a',
     href: 'zomg'
   });
-  var $component = this.append();
+  this.render();
+  var $component = this.$();
   var href = $component.attr('href');
   assert.equal(href, 'zomg');
 });
@@ -81,7 +87,8 @@ test('a tag: user should be able to opt out of href attr', function(assert) {
     tagName: 'a',
     href: false
   });
-  var $component = this.append();
+  this.render();
+  var $component = this.$();
   var href = $component.attr('href');
   assert.equal(href, undefined);
 });

@@ -6,6 +6,7 @@ var getWithDefault = Ember.getWithDefault;
 var set = Ember.set;
 
 export default Ember.Component.extend({
+  positionalParams: 'params',
   layout: layout,
   tagName: 'button',
   textState: 'default',
@@ -19,31 +20,15 @@ export default Ember.Component.extend({
 
   click: function() {
     var _this = this;
-    var rawActionArguments = this.getWithDefault('_actionArgs', []);
-    var actionArgumentTypes = this.getWithDefault('_argTypes', []);
+    var params = this.getWithDefault('params', []);
 
     function callbackHandler(promise) {
       set(_this, 'promise', promise);
     }
 
-    var actionArguments = ['action', callbackHandler];
+    var actionArguments = ['action', callbackHandler, ...params];
 
-    // Some of the arguments passed in might be bound values (ID type according to
-    // the option types stored in _argTypes). If so, we get the stream and retrieve
-    // the value when the button is clicked. Once the Stream API is public,
-    // the helper will be converted to pass in a concatenated array of streams
-    for (var index = 0, length = rawActionArguments.length; index < length; index++) {
-      var value = rawActionArguments[index];
-
-      if (actionArgumentTypes[index] === 'ID') {
-        value = this._parentView.getStream(value).value();
-      }
-
-      actionArguments.push(value);
-    }
-
-
-    this.sendAction.apply(this, actionArguments);
+    this.sendAction(...actionArguments);
     set(this, 'textState', 'pending');
 
     // If this is part of a form, it will perform an HTML form
@@ -71,7 +56,9 @@ export default Ember.Component.extend({
 
   handleActionPromise: Ember.observer('promise', function() {
     var _this = this;
-    get(this, 'promise').then(function() {
+    var promise = get(this, 'promise');
+    if(!promise) { return; }
+    promise.then(function() {
       if (!_this.isDestroyed) {
         set(_this, 'textState', 'fulfilled');
       }
