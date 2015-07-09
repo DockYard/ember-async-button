@@ -1,5 +1,6 @@
 # master
 
+* [BUGFIX] Fixes an issue where the block form of the component was not yielding itself
 * Implements helper so that arguments passed in are passed to the action
   called to fix
 [#27](https://github.com/dockyard/ember-cli-async-button/issues/27)

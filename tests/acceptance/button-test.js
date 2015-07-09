@@ -196,3 +196,16 @@ test('Can render a template instead', function(assert) {
   });
 });
 
+test('Block form yields correctly', function(assert) {
+  var buttonSelector = '#accepts-block button';
+  visit('/');
+
+  andThen(function() {
+    contains(find(buttonSelector), 'Save');
+    click(buttonSelector);
+  });
+
+  andThen(function() {
+    contains(find(buttonSelector), 'Saved!');
+  });
+});

@@ -18,3 +18,8 @@
 {{async-button promise=promise default="Save" pending="Saving..." fulfilled="Saved!" rejected="Fail!"}}
 {{/if}}
 </div>
+<div id="accepts-block">
+{{#async-button action="save" default="Save" pending="Saving..." fulfilled="Saved!" rejected="Fail!" as |button|}}
+  {{button.text}}
+{{/async-button}}
+</div>
