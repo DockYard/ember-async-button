@@ -27,6 +27,7 @@ var ButtonComponent = Ember.Component.extend(positionalParams, {
 
     function callbackHandler(promise) {
       set(_this, 'promise', promise);
+      return promise;
     }
 
     var actionArguments = ['action', callbackHandler, ...params];
