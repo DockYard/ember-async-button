@@ -5,8 +5,11 @@ var get = Ember.get;
 var getWithDefault = Ember.getWithDefault;
 var set = Ember.set;
 
-export default Ember.Component.extend({
-  positionalParams: 'params',
+var positionalParams = {
+  positionalParams: 'params'
+};
+
+var ButtonComponent = Ember.Component.extend(positionalParams, {
   layout: layout,
   tagName: 'button',
   textState: 'default',
@@ -87,3 +90,11 @@ export default Ember.Component.extend({
     if (tagName === 'a' && href === undefined) { return ''; }
   })
 });
+
+// Ember 1.13.6 will deprecate specifying `positionalParams` on the
+// instance in favor of class level property
+//
+// Having both defined keeps us compatible with Ember 1.13+ (all patch versions)
+ButtonComponent.reopenClass(positionalParams);
+
+export default ButtonComponent;
