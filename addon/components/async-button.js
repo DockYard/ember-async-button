@@ -1,16 +1,23 @@
 import Ember from 'ember';
 import layout from '../templates/components/async-button';
 
-var get = Ember.get;
-var getWithDefault = Ember.getWithDefault;
-var set = Ember.set;
+const {
+  Component,
+  computed,
+  computed: { equal },
+  deprecate,
+  get,
+  getWithDefault,
+  observer,
+  set
+} = Ember;
 
-var positionalParams = {
+const positionalParams = {
   positionalParams: 'params'
 };
 
-var ButtonComponent = Ember.Component.extend(positionalParams, {
-  layout: layout,
+const ButtonComponent = Component.extend(positionalParams, {
+  layout,
   tagName: 'button',
   textState: 'default',
   reset: false,
@@ -19,17 +26,16 @@ var ButtonComponent = Ember.Component.extend(positionalParams, {
   attributeBindings: ['disabled', 'type', '_href:href'],
 
   type: 'submit',
-  disabled: Ember.computed.equal('textState','pending'),
+  disabled: equal('textState', 'pending'),
 
-  click: function() {
-    var _this = this;
-    var params = this.getWithDefault('params', []);
+  click() {
+    const params = this.getWithDefault('params', []);
 
-    function callbackHandler(promise) {
-      set(_this, 'promise', promise);
-    }
+    const callbackHandler = ((promise) => {
+      set(this, 'promise', promise);
+    });
 
-    var actionArguments = ['action', callbackHandler, ...params];
+    const actionArguments = ['action', callbackHandler, ...params];
 
     this.sendAction(...actionArguments);
     set(this, 'textState', 'pending');
@@ -39,42 +45,43 @@ var ButtonComponent = Ember.Component.extend(positionalParams, {
     return false;
   },
 
-  text: Ember.computed('textState', 'default', 'pending', 'resolved', 'fulfilled', 'rejected', function() {
+  text: computed('textState', 'default', 'pending', 'resolved', 'fulfilled', 'rejected', function() {
     return getWithDefault(this, this.textState, get(this, 'default'));
   }),
 
-  resetObserver: Ember.observer('textState', 'reset', function(){
-    var states = ['resolved', 'rejected', 'fulfilled'];
-    var found = false;
-    var textState = get(this, 'textState');
+  resetObserver: observer('textState', 'reset', function() {
+    let found = false;
+    const states = ['resolved', 'rejected', 'fulfilled'];
+    const textState = get(this, 'textState');
 
-    for (var idx = 0; idx < states.length && !found; idx++) {
+    for (let idx = 0; idx < states.length && !found; idx++) {
       found = (textState === states[idx]);
     }
 
-    if(get(this, 'reset') && found){
+    if (get(this, 'reset') && found) {
       set(this, 'textState', 'default');
     }
   }),
 
-  handleActionPromise: Ember.observer('promise', function() {
-    var _this = this;
-    var promise = get(this, 'promise');
-    if(!promise) { return; }
-    promise.then(function() {
-      if (!_this.isDestroyed) {
-        set(_this, 'textState', 'fulfilled');
+  handleActionPromise: observer('promise', function() {
+    const promise = get(this, 'promise');
+    if (!promise) {
+      return;
+    }
+    promise.then(() => {
+      if (!this.isDestroyed) {
+        set(this, 'textState', 'fulfilled');
       }
-    }).catch(function() {
-      if (!_this.isDestroyed) {
-        set(_this, 'textState', 'rejected');
+    }).catch(() => {
+      if (!this.isDestroyed) {
+        set(this, 'textState', 'rejected');
       }
     });
   }),
 
-  setUnknownProperty: function(key, value) {
+  setUnknownProperty(key, value) {
     if (key === 'resolved') {
-      Ember.deprecate("The 'resolved' property is deprecated. Please use 'fulfilled'", false);
+      deprecate("The 'resolved' property is deprecated. Please use 'fulfilled'", false);
       key = 'fulfilled';
     }
 
@@ -82,12 +89,16 @@ var ButtonComponent = Ember.Component.extend(positionalParams, {
     this.set(key, value);
   },
 
-  _href: Ember.computed('href', function() {
-    var href = get(this, 'href');
-    if (href) { return href; }
+  _href: computed('href', function() {
+    const href = get(this, 'href');
+    if (href) {
+      return href;
+    }
 
-    var tagName = get(this, 'tagName').toLowerCase();
-    if (tagName === 'a' && href === undefined) { return ''; }
+    const tagName = get(this, 'tagName').toLowerCase();
+    if (tagName === 'a' && href === undefined) {
+      return '';
+    }
   })
 });
 
