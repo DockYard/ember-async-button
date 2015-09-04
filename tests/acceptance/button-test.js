@@ -3,179 +3,185 @@ import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 import contains from '../helpers/contains';
 
-var App, AppController;
+const {
+  RSVP: { Promise: EmberPromise, reject, resolve },
+  run
+} = Ember;
+
+let App, AppController;
 
 module('Acceptance: AsyncButton', {
-  setup: function() {
+  setup() {
     App = startApp();
-    AppController = App.__container__.lookup("controller:application");
+    AppController = App.__container__.lookup('controller:application');
   },
-  teardown: function() {
+
+  teardown() {
     AppController.set('actionArgument1', undefined);
     AppController.set('actionArgument2', undefined);
     AppController.set('actionArgument3', undefined);
-    Ember.run(App, 'destroy');
+    run(App, 'destroy');
   }
 });
 
-test('button resolves', function() {
+test('button resolves', () => {
   visit('/');
 
-  andThen(function() {
+  andThen(() => {
     contains(find('button.async-button'), 'Save');
     click('button.async-button');
   });
 
-  andThen(function() {
+  andThen(() => {
     contains(find('button.async-button'), 'Saving...');
   });
 
-  andThen(function() {
+  andThen(() => {
     contains(find('button.async-button'), 'Saved!');
   });
 });
 
-test('button bound to controller promise resolves', function() {
+test('button bound to controller promise resolves', () => {
   visit('/');
 
-  andThen(function() {
+  andThen(() => {
     contains(find('#promise-bound button.async-button'), 'Save');
-    AppController.set("promise", Ember.RSVP.resolve());
+    AppController.set('promise', resolve());
   });
 
-  andThen(function() {
+  andThen(() => {
     contains(find('#promise-bound button.async-button'), 'Saved!');
   });
 });
 
-test('parameters passed to the helper are passed to the action', function(assert) {
+test('parameters passed to the helper are passed to the action', (assert) => {
   visit('/');
 
   assert.equal(AppController.get('actionArgument1'), undefined);
   assert.equal(AppController.get('actionArgument2'), undefined);
   assert.equal(AppController.get('actionArgument3'), undefined);
 
-  andThen(function() {
+  andThen(() => {
     click('button.arg-button');
   });
 
-  andThen(function() {
+  andThen(() => {
     assert.equal(AppController.get('actionArgument1'), 'argument 1');
     assert.equal(AppController.get('actionArgument2'), 'argument 2');
     assert.equal(AppController.get('actionArgument3'), 'argument 3');
   });
 });
 
-test('dynamic parameters passed to the helper are passed to the action', function(assert) {
+test('dynamic parameters passed to the helper are passed to the action', (assert) => {
   visit('/');
 
   assert.equal(AppController.get('actionArgument3'), undefined);
 
-  andThen(function() {
+  andThen(() => {
     click('button.arg-button');
   });
 
-  andThen(function() {
+  andThen(() => {
     assert.equal(AppController.get('actionArgument3'), 'argument 3');
   });
 
-  andThen(function() {
+  andThen(() => {
     AppController.set('dynamicArgument', 'changed argument');
   });
   click('button.arg-button');
 
-  andThen(function() {
+  andThen(() => {
     assert.equal(AppController.get('actionArgument3'), 'changed argument');
   });
 });
 
-test('button bound to controller promise fails', function() {
+test('button bound to controller promise fails', () => {
   visit('/');
 
-  andThen(function() {
+  andThen(() => {
     contains(find('#promise-bound button.async-button'), 'Save');
-    AppController.set("promise", Ember.RSVP.reject());
+    AppController.set('promise', reject());
   });
 
-  andThen(function() {
+  andThen(() => {
     contains(find('#promise-bound button.async-button'), 'Fail!');
   });
 });
 
-test('app should not crash due to a race condition on resolve', function(assert) {
-  var resolve,
-  promise = new Ember.RSVP.Promise(function(r) {
+test('app should not crash due to a race condition on resolve', (assert) => {
+  let resolve;
+  const promise = new EmberPromise((r) => {
     resolve = r;
   });
   AppController.set('shown', true);
   visit('/');
 
-  andThen(function() {
-    AppController.set("promise", promise);
+  andThen(() => {
+    AppController.set('promise', promise);
     AppController.set('shown', false);
   });
 
-  andThen(function() {
+  andThen(() => {
     resolve();
-    assert.ok(true, "App should not crash due to a race condition on resolve");
+    assert.ok(true, 'App should not crash due to a race condition on resolve');
   });
 });
 
-test('app should not crash due to a race condition on reject', function(assert) {
-  var reject,
-  promise = new Ember.RSVP.Promise(function(resolve, r) {
+test('app should not crash due to a race condition on reject', (assert) => {
+  let reject;
+  const promise = new EmberPromise((resolve, r) => {
     reject = r;
   });
   AppController.set('shown', true);
   visit('/');
 
-  andThen(function() {
-    AppController.set("promise", promise);
+  andThen(() => {
+    AppController.set('promise', promise);
     AppController.set('shown', false);
   });
 
-  andThen(function() {
+  andThen(() => {
     reject();
-    assert.ok(true, "App should not crash due to a race condition on reject");
+    assert.ok(true, 'App should not crash due to a race condition on reject');
   });
 });
 
-test('button fails', function(assert) {
+test('button fails', (assert) => {
   visit('/');
 
-  andThen(function() {
+  andThen(() => {
     contains(find('button.async-button'), 'Save');
     click('.rejectPromise');
   });
 
-  andThen(function() {
+  andThen(() => {
     click('button.async-button');
   });
 
-  andThen(function() {
+  andThen(() => {
     contains(find('button.async-button'), 'Saving...');
   });
 
-  andThen(function() {
+  andThen(() => {
     contains(find('button.async-button'), 'Fail!');
   });
 });
 
-test('button type is set', function(assert) {
+test('button type is set', (assert) => {
   visit('/');
 
-  andThen(function() {
+  andThen(() => {
     assert.equal(find('#set-type button.async-button[type="submit"]').length, 1);
     assert.equal(find('#set-type button.async-button[type="button"]').length, 1);
     assert.equal(find('#set-type button.async-button[type="reset"]').length, 1);
   });
 });
 
-test('button reset', function(assert) {
+test('button reset', (assert) => {
   visit('/');
   click('button.async-button');
 
-  andThen(function() {
+  andThen(() => {
     contains(find('button.async-button'), 'Saved!');
     click('.dirtyState');
     contains(find('button.async-button'), 'Save');
@@ -183,29 +189,29 @@ test('button reset', function(assert) {
     click('button.async-button');
   });
 
-  andThen(function() {
+  andThen(() => {
     contains(find('button.async-button'), 'Saved!');
   });
 });
 
-test('Can render a template instead', function(assert) {
+test('Can render a template instead', (assert) => {
   visit('/');
 
-  andThen(function() {
+  andThen(() => {
     contains(find('button.template'), 'This is the template content.');
   });
 });
 
-test('Block form yields correctly', function(assert) {
-  var buttonSelector = '#accepts-block button';
+test('Block form yields correctly', (assert) => {
+  const buttonSelector = '#accepts-block button';
   visit('/');
 
-  andThen(function() {
+  andThen(() => {
     contains(find(buttonSelector), 'Save');
     click(buttonSelector);
   });
 
-  andThen(function() {
+  andThen(() => {
     contains(find(buttonSelector), 'Saved!');
   });
 });

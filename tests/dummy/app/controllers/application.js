@@ -1,11 +1,16 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend({
-  dynamicArgument: "argument 3",
+const {
+  Controller
+} = Ember;
+
+export default Controller.extend({
+  dynamicArgument: 'argument 3',
+
   actions: {
-    save: function(callback, passedArgument1, passedArgument2, passedArgument3) {
-      var _this = this;
-      var promise = new Ember.RSVP.Promise(function(resolve, reject) {
+    save(callback, passedArgument1, passedArgument2, passedArgument3) {
+      const _this = this;
+      const promise = new Ember.RSVP.Promise(function(resolve, reject) {
         if (_this.get('rejectPromise')) {
           Ember.run.later(function() {
             reject();
