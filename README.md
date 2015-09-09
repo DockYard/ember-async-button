@@ -98,6 +98,10 @@ Special text  used if the promise is fulfilled. If not provided will use the `de
 
 Special text  used if the promise is rejected. If not provided will use the `default` value.
 
+#### `disableWhen` ####
+
+Boolean value that will allow for disabling the button when in a state other than `pending`
+
 #### `reset` ####
 
 Flag telling the button to reset to the default state once `resolved` or `rejected`. A typical use case is to bind this attribute with ember-data `isDirty` flag.

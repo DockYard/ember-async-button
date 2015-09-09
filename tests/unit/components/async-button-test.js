@@ -24,7 +24,7 @@ test('it renders', function(assert) {
 
 test('tag name should be configurable', function(assert) {
   assert.expect(1);
-  var component = this.subject({
+  this.subject({
     tagName: 'a'
   });
   this.render();
@@ -35,7 +35,7 @@ test('tag name should be configurable', function(assert) {
 
 test('non-a tag should not have a href attr by default', function(assert) {
   assert.expect(1);
-  var component = this.subject();
+  this.subject();
   this.render();
   var $component = this.$();
   var href = $component.attr('href');
@@ -47,7 +47,7 @@ test(
   "Assuming the user needs it for some reason.",
   function(assert) {
     assert.expect(1);
-    var component = this.subject({
+    this.subject({
       href: 'lol'
     });
     this.render();
@@ -59,7 +59,7 @@ test(
 
 test('a tag should have an empty href attr by default', function(assert) {
   assert.expect(1);
-  var component = this.subject({
+  this.subject({
     tagName: 'a'
   });
   this.render();
@@ -70,7 +70,7 @@ test('a tag should have an empty href attr by default', function(assert) {
 
 test('a tag: href attr should be configurable', function(assert) {
   assert.expect(1);
-  var component = this.subject({
+  this.subject({
     tagName: 'a',
     href: 'zomg'
   });
@@ -83,7 +83,7 @@ test('a tag: href attr should be configurable', function(assert) {
 
 test('a tag: user should be able to opt out of href attr', function(assert) {
   assert.expect(1);
-  var component = this.subject({
+  this.subject({
     tagName: 'a',
     href: false
   });
