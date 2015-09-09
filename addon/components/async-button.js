@@ -16,10 +16,14 @@ var ButtonComponent = Ember.Component.extend(positionalParams, {
   reset: false,
   classNames: ['async-button'],
   classNameBindings: ['textState'],
-  attributeBindings: ['disabled', 'type', '_href:href'],
+  attributeBindings: ['disableWhen', 'disabled', 'type', '_href:href', 'tabindex'],
 
   type: 'submit',
-  disabled: Ember.computed.equal('textState','pending'),
+  disabled: Ember.computed('textState','disableWhen', function() {
+      var textState = get(this, 'textState');
+      var disableWhen = get(this, 'disableWhen');
+      return disableWhen || textState === 'pending';
+  }),
 
   click: function() {
     var _this = this;

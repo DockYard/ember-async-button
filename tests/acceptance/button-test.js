@@ -140,7 +140,7 @@ test('app should not crash due to a race condition on reject', function(assert) 
   });
 });
 
-test('button fails', function(assert) {
+test('button fails', function() {
   visit('/');
 
   andThen(function() {
@@ -171,7 +171,7 @@ test('button type is set', function(assert) {
   });
 });
 
-test('button reset', function(assert) {
+test('button reset', function() {
   visit('/');
   click('button.async-button');
 
@@ -188,7 +188,7 @@ test('button reset', function(assert) {
   });
 });
 
-test('Can render a template instead', function(assert) {
+test('Can render a template instead', function() {
   visit('/');
 
   andThen(function() {
@@ -196,7 +196,15 @@ test('Can render a template instead', function(assert) {
   });
 });
 
-test('Block form yields correctly', function(assert) {
+test('tabindex is respected', function(assert) {
+  visit('/');
+
+  andThen(function() {
+    assert.equal(find('#tabindex button').attr('tabindex'), 4);
+  });
+});
+
+test('Block form yields correctly', function() {
   var buttonSelector = '#accepts-block button';
   visit('/');
 
