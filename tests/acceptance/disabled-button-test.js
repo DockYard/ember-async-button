@@ -3,18 +3,23 @@ import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 import contains from '../helpers/contains';
 
-var App, DisabledController;
+let App, DisabledController;
+
+const {
+  set,
+  run
+} = Ember;
 
 module('Acceptance: Disabled AsyncButton', {
-  beforeEach: function() {
+  beforeEach() {
     App = startApp();
-    DisabledController = App.__container__.lookup("controller:disabled");
+    DisabledController = App.__container__.lookup('controller:disabled');
   },
-  afterEach: function() {
-    DisabledController.set('actionArgument1', undefined);
-    DisabledController.set('actionArgument2', undefined);
-    DisabledController.set('actionArgument3', undefined);
-    Ember.run(App, 'destroy');
+  afterEach() {
+    set(DisabledController, 'actionArgument1', undefined);
+    set(DisabledController, 'actionArgument2', undefined);
+    set(DisabledController, 'actionArgument3', undefined);
+    run(App, 'destroy');
   }
 });
 
@@ -35,7 +40,7 @@ test('button works with custom disabled conditional', function(assert) {
   andThen(function() {
     contains(find('#custom-disabled button'), 'Saving...');
     assert.equal(find('#custom-disabled button').is(':disabled'), true);
-    DisabledController.set("promise", Ember.RSVP.resolve());
+    set(DisabledController, 'promise', Ember.RSVP.resolve());
   });
 
   andThen(function() {

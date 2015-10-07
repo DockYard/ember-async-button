@@ -1,21 +1,27 @@
-import Ember from "ember";
+import Ember from 'ember';
+
+const {
+  get,
+  set,
+  run: { later },
+  RSVP: { Promise }
+} = Ember;
 
 export default Ember.Mixin.create({
   actions: {
-    save: function(callback, passedArgument1, passedArgument2, passedArgument3) {
-      var _this = this;
-      var promise = new Ember.RSVP.Promise(function(resolve, reject) {
-        if (_this.get('rejectPromise')) {
-          Ember.run.later(function() {
+    save(callback, passedArgument1, passedArgument2, passedArgument3) {
+      let promise = new Promise((resolve, reject) => {
+        if (get(this, 'rejectPromise')) {
+          later(() => {
             reject();
-          }, _this.get('timeoutLength'));
+          }, get(this, 'timeoutLength'));
         } else {
-          Ember.run.later(function() {
-            _this.set('actionArgument1', passedArgument1);
-            _this.set('actionArgument2', passedArgument2);
-            _this.set('actionArgument3', passedArgument3);
+          later(() => {
+            set(this, 'actionArgument1', passedArgument1);
+            set(this, 'actionArgument2', passedArgument2);
+            set(this, 'actionArgument3', passedArgument3);
             resolve();
-          }, _this.get('timeoutLength'));
+          }, get(this, 'timeoutLength'));
         }
       });
       callback(promise);
