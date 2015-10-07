@@ -1,15 +1,21 @@
 import Ember from 'ember';
 import layout from '../templates/components/async-button';
 
-var get = Ember.get;
-var getWithDefault = Ember.getWithDefault;
-var set = Ember.set;
+const {
+  get,
+  set,
+  computed,
+  observer,
+  deprecate,
+  getWithDefault,
+  Component
+} = Ember;
 
 var positionalParams = {
   positionalParams: 'params'
 };
 
-var ButtonComponent = Ember.Component.extend(positionalParams, {
+var ButtonComponent = Component.extend(positionalParams, {
   layout: layout,
   tagName: 'button',
   textState: 'default',
@@ -19,19 +25,18 @@ var ButtonComponent = Ember.Component.extend(positionalParams, {
   attributeBindings: ['disabled', 'type', '_href:href', 'tabindex'],
 
   type: 'submit',
-  disabled: Ember.computed('textState','disableWhen', function() {
+  disabled: computed('textState','disableWhen', function() {
       var textState = get(this, 'textState');
       var disableWhen = get(this, 'disableWhen');
       return disableWhen || textState === 'pending';
   }),
 
   click: function() {
-    var _this = this;
-    var params = this.getWithDefault('params', []);
+    var params = getWithDefault(this, 'params', []);
 
-    function callbackHandler(promise) {
-      set(_this, 'promise', promise);
-    }
+    const callbackHandler = (promise) => {
+      set(this, 'promise', promise);
+    };
 
     var actionArguments = ['action', callbackHandler, ...params];
 
@@ -43,11 +48,11 @@ var ButtonComponent = Ember.Component.extend(positionalParams, {
     return false;
   },
 
-  text: Ember.computed('textState', 'default', 'pending', 'resolved', 'fulfilled', 'rejected', function() {
+  text: computed('textState', 'default', 'pending', 'resolved', 'fulfilled', 'rejected', function() {
     return getWithDefault(this, this.textState, get(this, 'default'));
   }),
 
-  resetObserver: Ember.observer('textState', 'reset', function(){
+  resetObserver: observer('textState', 'reset', function(){
     var states = ['resolved', 'rejected', 'fulfilled'];
     var found = false;
     var textState = get(this, 'textState');
@@ -61,24 +66,23 @@ var ButtonComponent = Ember.Component.extend(positionalParams, {
     }
   }),
 
-  handleActionPromise: Ember.observer('promise', function() {
-    var _this = this;
+  handleActionPromise: observer('promise', function() {
     var promise = get(this, 'promise');
     if(!promise) { return; }
-    promise.then(function() {
-      if (!_this.isDestroyed) {
-        set(_this, 'textState', 'fulfilled');
+    promise.then(() => {
+      if (!this.isDestroyed) {
+        set(this, 'textState', 'fulfilled');
       }
-    }).catch(function() {
-      if (!_this.isDestroyed) {
-        set(_this, 'textState', 'rejected');
+    }).catch(() => {
+      if (!this.isDestroyed) {
+        set(this, 'textState', 'rejected');
       }
     });
   }),
 
   setUnknownProperty: function(key, value) {
     if (key === 'resolved') {
-      Ember.deprecate("The 'resolved' property is deprecated. Please use 'fulfilled'", false);
+      deprecate("The 'resolved' property is deprecated. Please use 'fulfilled'", false);
       key = 'fulfilled';
     }
 
@@ -86,7 +90,7 @@ var ButtonComponent = Ember.Component.extend(positionalParams, {
     this.set(key, value);
   },
 
-  _href: Ember.computed('href', function() {
+  _href: computed('href', function() {
     var href = get(this, 'href');
     if (href) { return href; }
 

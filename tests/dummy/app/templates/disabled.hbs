@@ -1,4 +1,4 @@
 <div id="custom-disabled">
   {{input value=model.name}}
-  {{async-button promiseBinding=promise disableWhen=model.isNotDirty default="Save" pending="Saving..."}}
+  {{async-button promise=promise disableWhen=model.isNotDirty default="Save" pending="Saving..."}}
 </div>
