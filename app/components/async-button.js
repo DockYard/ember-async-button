@@ -1,1 +1,1 @@
-export { default } from 'ember-cli-async-button/components/async-button';
+export { default } from 'ember-async-button/components/async-button';

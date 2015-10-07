@@ -2,5 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-cli-async-button'
+  name: 'ember-async-button'
 };

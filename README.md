@@ -1,8 +1,8 @@
-# Ember CLI Async Button
+# Ember Async Button
 
 [See a demo](http://jsbin.com/qokogasilu/1)
 
-[![Build](https://travis-ci.org/dockyard/ember-cli-async-button.svg?branch=master)](https://travis-ci.org/dockyard/ember-cli-async-button)
+[![Build](https://travis-ci.org/dockyard/ember-async-button.svg?branch=master)](https://travis-ci.org/dockyard/ember-async-button)
 
 ## About ##
 
@@ -13,7 +13,7 @@ component packages up that behavior.
 ## Install ##
 
 ```bash
-npm install ember-cli-async-button --save-dev
+npm install ember-async-button --save-dev
 ```
 
 ## Usage ##
@@ -142,7 +142,7 @@ If you don't want a `href` attribute on your `a` button, set it to `false`:
 
 * [Brian Cardarella](http://twitter.com/bcardarella)
 
-[We are very thankful for the many contributors](https://github.com/dockyard/ember-cli-async-button/graphs/contributors)
+[We are very thankful for the many contributors](https://github.com/dockyard/ember-async-button/graphs/contributors)
 
 ## Versioning ##
 
@@ -151,7 +151,7 @@ This library follows [Semantic Versioning](http://semver.org)
 ## Want to help? ##
 
 Please do! We are always looking to improve this addon. Please see our
-[Contribution Guidelines](https://github.com/dockyard/ember-cli-async-button/blob/master/CONTRIBUTING.md)
+[Contribution Guidelines](https://github.com/dockyard/ember-async-button/blob/master/CONTRIBUTING.md)
 on how to properly submit issues and pull requests.
 
 ## Legal ##
