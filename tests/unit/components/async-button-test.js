@@ -14,7 +14,7 @@ test('it renders', function(assert) {
   assert.expect(2);
 
   // creates the component instance
-  var component = this.subject();
+  let component = this.subject();
   assert.equal(component._state, 'preRender');
 
   // appends the component to the page
@@ -28,8 +28,8 @@ test('tag name should be configurable', function(assert) {
     tagName: 'a'
   });
   this.render();
-  var $component = this.$();
-  var tagName = $component.prop('tagName').toLowerCase();
+  let $component = this.$();
+  let tagName = $component.prop('tagName').toLowerCase();
   assert.equal(tagName, 'a');
 });
 
@@ -37,22 +37,19 @@ test('non-a tag should not have a href attr by default', function(assert) {
   assert.expect(1);
   this.subject();
   this.render();
-  var $component = this.$();
-  var href = $component.attr('href');
+  let $component = this.$();
+  let href = $component.attr('href');
   assert.equal(href, undefined);
 });
 
-test(
-  "should have a href attr if it's explicitly defined. " +
-  "Assuming the user needs it for some reason.",
-  function(assert) {
+test(`should have a href attr if it's explicitly defined. Assuming the user needs it for some reason.`, function(assert) {
     assert.expect(1);
     this.subject({
       href: 'lol'
     });
     this.render();
-    var $component = this.$();
-    var href = $component.attr('href');
+    let $component = this.$();
+    let href = $component.attr('href');
     assert.equal(href, 'lol');
   }
 );
@@ -63,8 +60,8 @@ test('a tag should have an empty href attr by default', function(assert) {
     tagName: 'a'
   });
   this.render();
-  var $component = this.$();
-  var href = $component.attr('href');
+  let $component = this.$();
+  let href = $component.attr('href');
   assert.equal(href, '');
 });
 
@@ -75,11 +72,10 @@ test('a tag: href attr should be configurable', function(assert) {
     href: 'zomg'
   });
   this.render();
-  var $component = this.$();
-  var href = $component.attr('href');
+  let $component = this.$();
+  let href = $component.attr('href');
   assert.equal(href, 'zomg');
 });
-
 
 test('a tag: user should be able to opt out of href attr', function(assert) {
   assert.expect(1);
@@ -88,9 +84,7 @@ test('a tag: user should be able to opt out of href attr', function(assert) {
     href: false
   });
   this.render();
-  var $component = this.$();
-  var href = $component.attr('href');
+  let $component = this.$();
+  let href = $component.attr('href');
   assert.equal(href, undefined);
 });
-
-

@@ -11,12 +11,12 @@ const {
   Component
 } = Ember;
 
-var positionalParams = {
+let positionalParamsMixin = {
   positionalParams: 'params'
 };
 
-var ButtonComponent = Component.extend(positionalParams, {
-  layout: layout,
+const ButtonComponent = Component.extend(positionalParamsMixin, {
+  layout,
   tagName: 'button',
   textState: 'default',
   reset: false,
@@ -25,20 +25,20 @@ var ButtonComponent = Component.extend(positionalParams, {
   attributeBindings: ['disabled', 'type', '_href:href', 'tabindex'],
 
   type: 'submit',
-  disabled: computed('textState','disableWhen', function() {
-      var textState = get(this, 'textState');
-      var disableWhen = get(this, 'disableWhen');
-      return disableWhen || textState === 'pending';
+  disabled: computed('textState', 'disableWhen', function() {
+    let textState = get(this, 'textState');
+    let disableWhen = get(this, 'disableWhen');
+    return disableWhen || textState === 'pending';
   }),
 
-  click: function() {
-    var params = getWithDefault(this, 'params', []);
+  click() {
+    let params = getWithDefault(this, 'params', []);
 
     const callbackHandler = (promise) => {
       set(this, 'promise', promise);
     };
 
-    var actionArguments = ['action', callbackHandler, ...params];
+    let actionArguments = ['action', callbackHandler, ...params];
 
     this.sendAction(...actionArguments);
     set(this, 'textState', 'pending');
@@ -52,23 +52,27 @@ var ButtonComponent = Component.extend(positionalParams, {
     return getWithDefault(this, this.textState, get(this, 'default'));
   }),
 
-  resetObserver: observer('textState', 'reset', function(){
-    var states = ['resolved', 'rejected', 'fulfilled'];
-    var found = false;
-    var textState = get(this, 'textState');
+  resetObserver: observer('textState', 'reset', function() {
+    let states = ['resolved', 'rejected', 'fulfilled'];
+    let found = false;
+    let textState = get(this, 'textState');
 
-    for (var idx = 0; idx < states.length && !found; idx++) {
+    for (let idx = 0; idx < states.length && !found; idx++) {
       found = (textState === states[idx]);
     }
 
-    if(get(this, 'reset') && found){
+    if (get(this, 'reset') && found) {
       set(this, 'textState', 'default');
     }
   }),
 
   handleActionPromise: observer('promise', function() {
-    var promise = get(this, 'promise');
-    if(!promise) { return; }
+    let promise = get(this, 'promise');
+
+    if (!promise) {
+      return;
+    }
+
     promise.then(() => {
       if (!this.isDestroyed) {
         set(this, 'textState', 'fulfilled');
@@ -80,9 +84,9 @@ var ButtonComponent = Component.extend(positionalParams, {
     });
   }),
 
-  setUnknownProperty: function(key, value) {
+  setUnknownProperty(key, value) {
     if (key === 'resolved') {
-      deprecate("The 'resolved' property is deprecated. Please use 'fulfilled'", false);
+      deprecate(`The 'resolved' property is deprecated. Please use 'fulfilled'`, false);
       key = 'fulfilled';
     }
 
@@ -91,11 +95,15 @@ var ButtonComponent = Component.extend(positionalParams, {
   },
 
   _href: computed('href', function() {
-    var href = get(this, 'href');
-    if (href) { return href; }
+    let href = get(this, 'href');
+    if (href) {
+      return href;
+    }
 
-    var tagName = get(this, 'tagName').toLowerCase();
-    if (tagName === 'a' && href === undefined) { return ''; }
+    let tagName = get(this, 'tagName').toLowerCase();
+    if (tagName === 'a' && href === undefined) {
+      return '';
+    }
   })
 });
 
@@ -103,6 +111,6 @@ var ButtonComponent = Component.extend(positionalParams, {
 // instance in favor of class level property
 //
 // Having both defined keeps us compatible with Ember 1.13+ (all patch versions)
-ButtonComponent.reopenClass(positionalParams);
+ButtonComponent.reopenClass(positionalParamsMixin);
 
 export default ButtonComponent;

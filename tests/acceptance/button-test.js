@@ -3,18 +3,23 @@ import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 import contains from '../helpers/contains';
 
-var App, AppController;
+let App, AppController;
+
+const {
+  set,
+  run
+} = Ember;
 
 module('Acceptance: AsyncButton', {
-  setup: function() {
+  setup() {
     App = startApp();
-    AppController = App.__container__.lookup("controller:application");
+    AppController = App.__container__.lookup('controller:application');
   },
-  teardown: function() {
-    AppController.set('actionArgument1', undefined);
-    AppController.set('actionArgument2', undefined);
-    AppController.set('actionArgument3', undefined);
-    Ember.run(App, 'destroy');
+  teardown() {
+    set(AppController, 'actionArgument1', undefined);
+    set(AppController, 'actionArgument2', undefined);
+    set(AppController, 'actionArgument3', undefined);
+    run(App, 'destroy');
   }
 });
 
@@ -40,7 +45,7 @@ test('button bound to controller promise resolves', function() {
 
   andThen(function() {
     contains(find('#promise-bound button.async-button'), 'Save');
-    AppController.set("promise", Ember.RSVP.resolve());
+    set(AppController, 'promise', Ember.RSVP.resolve());
   });
 
   andThen(function() {
@@ -80,7 +85,7 @@ test('dynamic parameters passed to the helper are passed to the action', functio
   });
 
   andThen(function() {
-    AppController.set('dynamicArgument', 'changed argument');
+    set(AppController, 'dynamicArgument', 'changed argument');
   });
   click('button.arg-button');
 
@@ -94,7 +99,7 @@ test('button bound to controller promise fails', function() {
 
   andThen(function() {
     contains(find('#promise-bound button.async-button'), 'Save');
-    AppController.set("promise", Ember.RSVP.reject());
+    set(AppController, 'promise', Ember.RSVP.reject());
   });
 
   andThen(function() {
@@ -103,40 +108,40 @@ test('button bound to controller promise fails', function() {
 });
 
 test('app should not crash due to a race condition on resolve', function(assert) {
-  var resolve,
-  promise = new Ember.RSVP.Promise(function(r) {
+  let resolve;
+  let promise = new Ember.RSVP.Promise(function(r) {
     resolve = r;
   });
-  AppController.set('shown', true);
+  set(AppController, 'shown', true);
   visit('/');
 
   andThen(function() {
-    AppController.set("promise", promise);
-    AppController.set('shown', false);
+    set(AppController, 'promise', promise);
+    set(AppController, 'shown', false);
   });
 
   andThen(function() {
     resolve();
-    assert.ok(true, "App should not crash due to a race condition on resolve");
+    assert.ok(true, 'App should not crash due to a race condition on resolve');
   });
 });
 
 test('app should not crash due to a race condition on reject', function(assert) {
-  var reject,
-  promise = new Ember.RSVP.Promise(function(resolve, r) {
+  let reject;
+  let promise = new Ember.RSVP.Promise(function(resolve, r) {
     reject = r;
   });
-  AppController.set('shown', true);
+  set(AppController, 'shown', true);
   visit('/');
 
   andThen(function() {
-    AppController.set("promise", promise);
-    AppController.set('shown', false);
+    set(AppController, 'promise', promise);
+    set(AppController, 'shown', false);
   });
 
   andThen(function() {
     reject();
-    assert.ok(true, "App should not crash due to a race condition on reject");
+    assert.ok(true, 'App should not crash due to a race condition on reject');
   });
 });
 
@@ -205,7 +210,7 @@ test('tabindex is respected', function(assert) {
 });
 
 test('Block form yields correctly', function() {
-  var buttonSelector = '#accepts-block button';
+  let buttonSelector = '#accepts-block button';
   visit('/');
 
   andThen(function() {
