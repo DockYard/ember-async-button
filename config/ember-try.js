@@ -30,6 +30,15 @@ module.exports = {
       resolutions: {
         'ember': 'canary'
       }
+    },
+    {
+      name: 'ember-1.13.10',
+      dependencies: {
+        'ember': '1.13.10'
+      },
+      resolutions: {
+        'ember': '1.13.10'
+      }
     }
   ]
 };

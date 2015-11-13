@@ -5,6 +5,7 @@ const {
   get,
   set,
   computed,
+  computed: { equal },
   observer,
   deprecate,
   getWithDefault,
@@ -18,17 +19,17 @@ let positionalParamsMixin = {
 const ButtonComponent = Component.extend(positionalParamsMixin, {
   layout,
   tagName: 'button',
-  textState: 'default',
+  promiseState: 'default',
   reset: false,
   classNames: ['async-button'],
-  classNameBindings: ['textState'],
+  classNameBindings: ['promiseState'],
   attributeBindings: ['disabled', 'type', '_href:href', 'tabindex'],
 
   type: 'submit',
-  disabled: computed('textState', 'disableWhen', function() {
-    let textState = get(this, 'textState');
+  disabled: computed('promiseState', 'disableWhen', function() {
+    let promiseState = get(this, 'promiseState');
     let disableWhen = get(this, 'disableWhen');
-    return disableWhen || textState === 'pending';
+    return disableWhen || promiseState === 'pending';
   }),
 
   click() {
@@ -41,28 +42,33 @@ const ButtonComponent = Component.extend(positionalParamsMixin, {
     let actionArguments = ['action', callbackHandler, ...params];
 
     this.sendAction(...actionArguments);
-    set(this, 'textState', 'pending');
+    set(this, 'promiseState', 'pending');
 
     // If this is part of a form, it will perform an HTML form
     // submission without returning false to prevent action bubbling
     return false;
   },
 
-  text: computed('textState', 'default', 'pending', 'resolved', 'fulfilled', 'rejected', function() {
-    return getWithDefault(this, this.textState, get(this, 'default'));
+  text: computed('promiseState', 'default', 'pending', 'resolved', 'fulfilled', 'rejected', function() {
+    return getWithDefault(this, this.promiseState, get(this, 'default'));
   }),
 
-  resetObserver: observer('textState', 'reset', function() {
+  isRejected: equal('promiseState', 'rejected'),
+  isFulfilled: equal('promiseState', 'fulfilled'),
+  isPending: equal('promiseState', 'pending'),
+  isDefault: equal('promiseState', 'default'),
+
+  resetObserver: observer('promiseState', 'reset', function() {
     let states = ['resolved', 'rejected', 'fulfilled'];
     let found = false;
-    let textState = get(this, 'textState');
+    let promiseState = get(this, 'promiseState');
 
     for (let idx = 0; idx < states.length && !found; idx++) {
-      found = (textState === states[idx]);
+      found = (promiseState === states[idx]);
     }
 
     if (get(this, 'reset') && found) {
-      set(this, 'textState', 'default');
+      set(this, 'promiseState', 'default');
     }
   }),
 
@@ -75,11 +81,11 @@ const ButtonComponent = Component.extend(positionalParamsMixin, {
 
     promise.then(() => {
       if (!this.isDestroyed) {
-        set(this, 'textState', 'fulfilled');
+        set(this, 'promiseState', 'fulfilled');
       }
     }).catch(() => {
       if (!this.isDestroyed) {
-        set(this, 'textState', 'rejected');
+        set(this, 'promiseState', 'rejected');
       }
     });
   }),

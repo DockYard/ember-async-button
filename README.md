@@ -29,10 +29,23 @@ In a template use the `async-button` helper
 The component can also take a block:
 
 ```handlebars
-{{#async-button action="save"}}
-  Template content.
+{{#async-button action="save" as |button|}}
+  {{#if button.isRejected}}
+   Error: {{button.text}}
+  {{else}}
+    {{button.text}}
+  {{/if}}
 {{/async-button}}
 ```
+
+It yields itself, so you can take advantage of computed properties:
+* `text`
+* `disabled`
+* `promiseStatus`
+* `isPending`
+* `isFulfilled`
+* `isRejected`
+* `isDefault`
 
 In the controller for the template, you must create an action that matches the name
 given in the helper. If you passed the helper arguments, they will
