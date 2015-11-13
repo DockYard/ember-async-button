@@ -5,6 +5,7 @@ const {
   get,
   set,
   computed,
+  computed: { equal },
   observer,
   deprecate,
   getWithDefault,
@@ -51,6 +52,11 @@ const ButtonComponent = Component.extend(positionalParamsMixin, {
   text: computed('promiseState', 'default', 'pending', 'resolved', 'fulfilled', 'rejected', function() {
     return getWithDefault(this, this.promiseState, get(this, 'default'));
   }),
+
+  isRejected: equal('promiseState', 'rejected'),
+  isFulfilled: equal('promiseState', 'fulfilled'),
+  isPending: equal('promiseState', 'pending'),
+  isDefault: equal('promiseState', 'default'),
 
   resetObserver: observer('promiseState', 'reset', function() {
     let states = ['resolved', 'rejected', 'fulfilled'];
