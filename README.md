@@ -29,8 +29,8 @@ In a template use the `async-button` helper
 The component can also take a block:
 
 ```handlebars
-{{#async-button action="save"}}
-  Template content.
+{{#async-button action="save" as |button|}}
+  Template content. {{button.text}}
 {{/async-button}}
 ```
 
