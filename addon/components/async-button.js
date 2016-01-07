@@ -32,15 +32,33 @@ const ButtonComponent = Component.extend(positionalParamsMixin, {
   }),
 
   click() {
-    let params = getWithDefault(this, 'params', []);
-
+    const params = getWithDefault(this, 'params', []);
     const callbackHandler = (promise) => {
       set(this, 'promise', promise);
     };
 
-    let actionArguments = ['action', callbackHandler, ...params];
+    if (typeof this.attrs.action === 'function') {
+      const deprecatingCallbackHandler = function(promise) {
+        deprecate(`When using closure style actions with ember-async-button,
+please return the promise instead of using the callback argument.
+The callback for closure actions will be removed in future versions.`,
+          false,
+          { id: 'ember-async-button.action-callback', until: '0.8.0' });
 
-    this.sendAction(...actionArguments);
+        callbackHandler(promise);
+      };
+
+      let promise = this.attrs.action(deprecatingCallbackHandler, ...params);
+
+      if (promise && typeof promise.then === 'function') {
+        callbackHandler(promise);
+      }
+    } else {
+      let actionArguments = ['action', callbackHandler, ...params];
+
+      this.sendAction(...actionArguments);
+    }
+
     set(this, 'textState', 'pending');
 
     // If this is part of a form, it will perform an HTML form
