@@ -13,7 +13,7 @@ component packages up that behavior.
 ## Install ##
 
 ```bash
-npm install ember-async-button --save-dev
+ember install ember-async-button
 ```
 
 ## Usage ##
