@@ -2,7 +2,7 @@
 
 [See a demo](http://jsbin.com/qokogasilu/1)
 
-[![Build](https://travis-ci.org/dockyard/ember-async-button.svg?branch=master)](https://travis-ci.org/dockyard/ember-async-button)
+[![Build Status](https://travis-ci.org/DockYard/ember-async-button.svg?branch=master)](https://travis-ci.org/DockYard/ember-async-button)
 
 ## About ##
 
@@ -21,52 +21,31 @@ ember install ember-async-button
 In a template use the `async-button` helper
 
 ```handlebars
-{{async-button action="save" default="Save" pending="Saving..."}}
-{{! or if you have arguments to be passed to the action}}
-{{async-button model "another argument" ... action="save" default="Save" pending="Saving..."}}
+{{async-button action=(action "save" model) default="Save" pending="Saving..."}}
 ```
 
 The component can also take a block:
 
 ```handlebars
-{{#async-button action="save"}}
+{{#async-button action=(action "save")}}
   Template content.
 {{/async-button}}
 ```
 
-In the controller for the template, you must create an action that matches the name
-given in the helper. If you passed the helper arguments, they will
-follow the callback argument.
-
+The closure action passed should return a promise:
 ```js
-Ember.Controller.extend({
+import Ember from 'ember';
+
+const { Component } = Ember;
+
+export default Component.extend({
   actions: {
-    save: function(callback) {
-      var promise = this.get('model').save();
-
-      callback(promise);
-
-      promise.then(function() {
-        ...
-      });
-    }
-    // If you passed async-button arguments
-    save: function(callback, firstArg, secondArg, ...) {
-      var promise = this.get('model').save();
-
-      callback(promise);
-
-      promise.then(function() {
-        ...
-      });
+    save(model) {
+      return model.save();
     }
   }
 });
 ```
-
-Make special note of `callback(promise);` In order for
-`async-button` to work correctly the promise in the action must be
-passed back to the `callback` function that is passed in.
 
 ### Options ###
 
