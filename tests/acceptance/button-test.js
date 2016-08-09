@@ -29,10 +29,7 @@ test('button resolves', function() {
 
   andThen(function() {
     contains(find('button.async-button'), 'Save');
-    click('button.async-button');
-  });
-
-  andThen(function() {
+    run(() => click('button.async-button'));
     contains(find('button.async-button'), 'Saving...');
   });
 
@@ -155,10 +152,7 @@ test('button fails', function() {
   });
 
   andThen(function() {
-    click('button.async-button');
-  });
-
-  andThen(function() {
+    run(() => click('button.async-button'));
     contains(find('button.async-button'), 'Saving...');
   });
 
