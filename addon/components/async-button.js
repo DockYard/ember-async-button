@@ -32,13 +32,13 @@ const ButtonComponent = Component.extend(positionalParamsMixin, {
   }),
 
   click() {
-    const params = getWithDefault(this, 'params', []);
-    const callbackHandler = (promise) => {
+    let params = getWithDefault(this, 'params', []);
+    let callbackHandler = (promise) => {
       set(this, 'promise', promise);
     };
 
     if (typeof this.attrs.action === 'function') {
-      const deprecatingCallbackHandler = function(promise) {
+      let deprecatingCallbackHandler = function(promise) {
         deprecate(`When using closure style actions with ember-async-button,
 please return the promise instead of using the callback argument.
 The callback for closure actions will be removed in future versions.`,

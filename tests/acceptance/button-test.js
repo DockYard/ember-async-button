@@ -6,6 +6,7 @@ import contains from '../helpers/contains';
 let App, AppController;
 
 const {
+  RSVP: { Promise, reject, resolve },
   set,
   run
 } = Ember;
@@ -28,10 +29,7 @@ test('button resolves', function() {
 
   andThen(function() {
     contains(find('button.async-button'), 'Save');
-    click('button.async-button');
-  });
-
-  andThen(function() {
+    run(() => click('button.async-button'));
     contains(find('button.async-button'), 'Saving...');
   });
 
@@ -45,7 +43,7 @@ test('button bound to controller promise resolves', function() {
 
   andThen(function() {
     contains(find('#promise-bound button.async-button'), 'Save');
-    set(AppController, 'promise', Ember.RSVP.resolve());
+    set(AppController, 'promise', resolve());
   });
 
   andThen(function() {
@@ -99,7 +97,7 @@ test('button bound to controller promise fails', function() {
 
   andThen(function() {
     contains(find('#promise-bound button.async-button'), 'Save');
-    set(AppController, 'promise', Ember.RSVP.reject());
+    set(AppController, 'promise', reject());
   });
 
   andThen(function() {
@@ -109,7 +107,7 @@ test('button bound to controller promise fails', function() {
 
 test('app should not crash due to a race condition on resolve', function(assert) {
   let resolve;
-  let promise = new Ember.RSVP.Promise(function(r) {
+  let promise = new Promise(function(r) {
     resolve = r;
   });
   set(AppController, 'shown', true);
@@ -128,7 +126,7 @@ test('app should not crash due to a race condition on resolve', function(assert)
 
 test('app should not crash due to a race condition on reject', function(assert) {
   let reject;
-  let promise = new Ember.RSVP.Promise(function(resolve, r) {
+  let promise = new Promise(function(resolve, r) {
     reject = r;
   });
   set(AppController, 'shown', true);
@@ -154,10 +152,7 @@ test('button fails', function() {
   });
 
   andThen(function() {
-    click('button.async-button');
-  });
-
-  andThen(function() {
+    run(() => click('button.async-button'));
     contains(find('button.async-button'), 'Saving...');
   });
 
