@@ -1,13 +1,14 @@
 import Ember from 'ember';
 
 const {
+  Mixin,
   get,
   set,
   run: { later },
   RSVP: { Promise }
 } = Ember;
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   actions: {
     save(callback, passedArgument1, passedArgument2, passedArgument3) {
       let promise = new Promise((resolve, reject) => {

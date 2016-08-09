@@ -4,6 +4,8 @@ import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 
 const {
+  RSVP: { Promise },
+  run: { next },
   setProperties
 } = Ember;
 
@@ -23,8 +25,8 @@ test('it responds to a fulfilled closure promise', function(assert) {
   });
 
   this.on('closurePromise', function() {
-    return new Ember.RSVP.Promise((fulfill) => {
-      Ember.run.next(() => {
+    return new Promise((fulfill) => {
+      next(() => {
         fulfill();
       });
     });
@@ -53,8 +55,8 @@ test('it responds to a rejected closure promise', function(assert) {
   });
 
   this.on('closurePromise', function() {
-    return new Ember.RSVP.Promise((fulfill, reject) => {
-      Ember.run.next(() => {
+    return new Promise((fulfill, reject) => {
+      next(() => {
         reject();
       });
     });
@@ -82,8 +84,8 @@ test('closure actions can use the callback argument', function(assert) {
   });
 
   this.on('closurePromise', function(callback) {
-    let promise = new Ember.RSVP.Promise((fulfill) => {
-      Ember.run.next(() => {
+    let promise = new Promise((fulfill) => {
+      next(() => {
         fulfill();
       });
     });

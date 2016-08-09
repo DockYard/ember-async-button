@@ -1,14 +1,21 @@
 import Ember from 'ember';
 
-let Foo = Ember.Object.extend({
+const {
+  Object: EmberObject,
+  Route,
+  computed,
+  computed: { not }
+} = Ember;
+
+let Foo = EmberObject.extend({
   name: '',
-  isNotDirty: Ember.computed.not('isDirty'),
-  isDirty: Ember.computed('name', function() {
+  isNotDirty: not('isDirty'),
+  isDirty: computed('name', function() {
     return this.get('name').length > 0;
   })
 });
 
-export default Ember.Route.extend({
+export default Route.extend({
   model() {
     return Foo.create();
   }

@@ -6,6 +6,7 @@ import contains from '../helpers/contains';
 let App, DisabledController;
 
 const {
+  RSVP: { resolve },
   set,
   run
 } = Ember;
@@ -40,7 +41,7 @@ test('button works with custom disabled conditional', function(assert) {
   andThen(function() {
     contains(find('#custom-disabled button'), 'Saving...');
     assert.equal(find('#custom-disabled button').is(':disabled'), true);
-    set(DisabledController, 'promise', Ember.RSVP.resolve());
+    set(DisabledController, 'promise', resolve());
   });
 
   andThen(function() {
