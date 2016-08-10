@@ -2,8 +2,7 @@
 
 [See a demo](http://jsbin.com/qokogasilu/1)
 
-[![Build Status](https://travis-ci.org/DockYard/ember-async-button.svg?branch=master)](https://travis-ci.org/DockYard/ember-async-button)
-
+[![Build Status](https://travis-ci.org/DockYard/ember-async-button.svg?branch=master)](https://travis-ci.org/DockYard/ember-async-button) [![CircleCI](https://circleci.com/gh/DockYard/ember-async-button.svg?style=shield)](https://circleci.com/gh/DockYard/ember-async-button) [![npm version](https://badge.fury.io/js/ember-async-button.svg)](https://badge.fury.io/js/ember-async-button) [![Ember Observer Score](http://emberobserver.com/badges/ember-async-button.svg)](http://emberobserver.com/addons/ember-async-button)
 ## About ##
 
 When running async actions ensuring disabling of the button,
