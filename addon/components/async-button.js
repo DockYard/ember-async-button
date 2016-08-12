@@ -19,6 +19,7 @@ const ButtonComponent = Component.extend(positionalParamsMixin, {
   layout,
   tagName: 'button',
   textState: 'default',
+  asyncState: computed.alias('default'),
   reset: false,
   classNames: ['async-button'],
   classNameBindings: ['textState'],
@@ -122,6 +123,18 @@ The callback for closure actions will be removed in future versions.`,
     if (tagName === 'a' && href === undefined) {
       return '';
     }
+  }),
+
+  _stateObject: computed('textState', function() {
+    let textState = get(this, 'textState');
+    let isFulfilled = textState === 'fulfilled' || textState === 'resolved';
+    return {
+      isPending: textState === 'pending',
+      isFulfilled,
+      isResolved: isFulfilled,
+      isRejected: textState === 'rejected',
+      isDefault: textState === 'default'
+    };
   })
 });
 

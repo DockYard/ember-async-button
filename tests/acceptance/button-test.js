@@ -217,3 +217,26 @@ test('Block form yields correctly', function() {
     contains(find(buttonSelector), 'Saved!');
   });
 });
+
+test('Yield state', function() {
+  visit('/');
+
+  andThen(function() {
+    contains(find('#state-yield button.async-button'), 'default');
+  });
+
+  andThen(function() {
+    run(()=> click('#state-yield button.async-button'));
+    contains(find('#state-yield button.async-button'), 'pending');
+  });
+
+  andThen(function() {
+    run(()=> set(AppController, 'promise', reject()));
+    contains(find('#state-yield button.async-button'), 'rejected');
+  });
+
+  andThen(function() {
+    run(()=> set(AppController, 'promise', resolve()));
+    contains(find('#state-yield button.async-button'), 'fulfilled');
+  });
+});

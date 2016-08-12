@@ -27,4 +27,13 @@
   {{button.text}}
 {{/async-button}}
 </div>
+
+<div id="state-yield">
+  {{#async-button promise=promise as |button state|}}
+    {{#if state.isFulfilled}} fulfilled {{/if}}
+    {{#if state.isPending}} pending {{/if}}
+    {{#if state.isRejected}} rejected {{/if}}
+    {{#if state.isDefault}} default {{/if}}
+  {{/async-button}}
+</div>
 {{outlet}}
