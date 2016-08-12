@@ -23,11 +23,24 @@ In a template use the `async-button` helper
 {{async-button action=(action "save" model) default="Save" pending="Saving..."}}
 ```
 
+### With a block ###
+
 The component can also take a block:
 
 ```handlebars
-{{#async-button action=(action "save")}}
-  Template content.
+{{#async-button action=(action "save") as |component state|}}
+  {{#if state.isDefault}}
+    Click here to save
+  {{/if}}
+  {{#if state.isPending}}
+    Please wait...
+  {{/if}}
+  {{#if state.isFulfilled}}
+    Everything went well, congrats!
+  {{/if}}
+  {{#if state.isRejected}}
+    Ooops, something went wrong.
+  {{/if}}
 {{/async-button}}
 ```
 
