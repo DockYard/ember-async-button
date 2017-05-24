@@ -8,7 +8,8 @@ const {
   observer,
   deprecate,
   getWithDefault,
-  Component
+  Component,
+  run: { later }
 } = Ember;
 
 let positionalParamsMixin = {
@@ -21,6 +22,7 @@ const ButtonComponent = Component.extend(positionalParamsMixin, {
   textState: 'default',
   asyncState: computed.alias('default'),
   reset: false,
+  resetAfter: 0,
   classNames: ['async-button'],
   classNameBindings: ['textState'],
   attributeBindings: ['disabled', 'type', '_href:href', 'tabindex'],
@@ -81,7 +83,7 @@ The callback for closure actions will be removed in future versions.`,
     }
 
     if (get(this, 'reset') && found) {
-      set(this, 'textState', 'default');
+      later(this, () => set(this, 'textState', 'default'), get(this, 'resetAfter'));
     }
   }),
 

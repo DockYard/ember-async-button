@@ -28,6 +28,10 @@
 {{/async-button}}
 </div>
 
+<div id="reset-delay">
+  {{async-button action="save" default="Save (delay)" pending="Saving..." fulfilled="Saved!" rejected="Fail!" reset=true resetAfter=3000}}
+</div>
+
 <div id="state-yield">
   {{#async-button promise=promise as |button state|}}
     {{#if state.isFulfilled}} fulfilled {{/if}}

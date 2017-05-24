@@ -188,6 +188,19 @@ test('button reset', function() {
   });
 });
 
+test('button reset with delay', function() {
+  visit('/');
+  click('#reset-delay button');
+
+  andThen(function() {
+    contains(find('#reset-delay button'), 'Saved!');
+  });
+
+  andThen(function() {
+    contains(find('#reset-delay button'), 'Save (delay)');
+  });
+});
+
 test('Can render a template instead', function() {
   visit('/');
 
