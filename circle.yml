@@ -1,9 +1,7 @@
 machine:
   node:
-    version: "stable"
+    version: "6"
 dependencies:
   pre:
     - npm install -g bower
     - sudo apt-get update; sudo apt-get install -y --only-upgrade google-chrome-stable
-  post:
-    - bower install
