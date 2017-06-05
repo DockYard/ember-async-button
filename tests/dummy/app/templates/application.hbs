@@ -1,6 +1,6 @@
 <h1>Hello</h1>
-{{input checked=rejectPromise type="checkbox" class="rejectPromise"}}
-{{input checked=dirtyState type="checkbox" class="dirtyState"}}
+<input type="checkbox" class="rejectPromise" checked={{rejectPromise}} onchange={{action (mut rejectPromise) value="target.checked"}}>
+<input type="checkbox" class="dirtyState" checked={{dirtyState}} onchange={{action (mut dirtyState) value="target.checked"}}>
 {{async-button "argument 1" "argument 2" dynamicArgument action="save" default="Save" pending="Saving..." fulfilled="Saved!" rejected="Fail!" reset=dirtyState class="arg-button"}}
 {{#async-button action="save" class="template"}}
   This is the template content.
