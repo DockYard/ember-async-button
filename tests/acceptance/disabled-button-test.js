@@ -1,3 +1,4 @@
+import { click, fillIn, visit } from 'ember-native-dom-helpers';
 import Ember from 'ember';
 import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
@@ -6,7 +7,8 @@ let DisabledController;
 
 const {
   RSVP: { resolve },
-  set
+  set,
+  run
 } = Ember;
 
 moduleForAcceptance('Acceptance | Disabled AsyncButton', {
@@ -18,34 +20,22 @@ moduleForAcceptance('Acceptance | Disabled AsyncButton', {
   }
 });
 
-test('button works with custom disabled conditional', function(assert) {
-  visit('/disabled');
+test('button works with custom disabled conditional', async function(assert) {
+  await visit('/disabled');
 
-  andThen(function() {
-    assert.equal(find('#custom-disabled button').is(':disabled'), true);
-    assert.contains('#custom-disabled button', 'Save');
-  });
-  fillIn('#custom-disabled input', 'x');
-  andThen(function() {
-    assert.equal(find('#custom-disabled button').is(':disabled'), false);
-    assert.contains('#custom-disabled button', 'Save');
-  });
+  assert.equal(find('#custom-disabled button').is(':disabled'), true);
+  assert.contains('#custom-disabled button', 'Save');
+  await fillIn('#custom-disabled input', 'x');
+  assert.equal(find('#custom-disabled button').is(':disabled'), false);
+  assert.contains('#custom-disabled button', 'Save');
 
-  click('#custom-disabled button');
-  andThen(function() {
-    assert.contains('#custom-disabled button', 'Saving...');
-    assert.equal(find('#custom-disabled button').is(':disabled'), true);
-    set(DisabledController, 'promise', resolve());
-  });
-
-  andThen(function() {
-    assert.contains('#custom-disabled button', 'Save');
-    assert.equal(find('#custom-disabled button').is(':disabled'), false);
-    fillIn('#custom-disabled input', '');
-  });
-
-  andThen(function() {
-    assert.contains('#custom-disabled button', 'Save');
-    assert.equal(find('#custom-disabled button').is(':disabled'), true);
-  });
+  await click('#custom-disabled button');
+  assert.contains('#custom-disabled button', 'Saving...');
+  assert.equal(find('#custom-disabled button').is(':disabled'), true);
+  run(() => set(DisabledController, 'promise', resolve()));
+  assert.contains('#custom-disabled button', 'Save');
+  assert.equal(find('#custom-disabled button').is(':disabled'), false);
+  await fillIn('#custom-disabled input', '');
+  assert.contains('#custom-disabled button', 'Save');
+  assert.equal(find('#custom-disabled button').is(':disabled'), true);
 });
