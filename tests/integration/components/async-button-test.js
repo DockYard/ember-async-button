@@ -99,3 +99,29 @@ test('closure actions receive positional params', async function(assert) {
   this.render(hbs`{{async-button "foo" "bar" action=(action "closurePromise")}}`);
   await click('button');
 });
+
+test('It can receive a tagName', function(assert) {
+  this.render(hbs`{{async-button tagName="a"}}`);
+  assert.notOk(find('button'), 'There is no button');
+  assert.ok(find('a'), 'There is anchor instead');
+});
+
+test('If the tagName is not an `a`, it has no `href`', function(assert) {
+  this.render(hbs`{{async-button}}`);
+  assert.equal(find('button').getAttribute('href'), undefined);
+});
+
+test('If the tagName is an `a`, it has an `href`', function(assert) {
+  this.render(hbs`{{async-button tagName="a"}}`);
+  assert.equal(find('a').getAttribute('href'), '');
+});
+
+test('The user can customize the href', function(assert) {
+  this.render(hbs`{{async-button tagName="a" href="lol"}}`);
+  assert.equal(find('a').getAttribute('href'), 'lol');
+});
+
+test('The user can opt-out to the href by passing `href=false`', function(assert) {
+  this.render(hbs`{{async-button tagName="a" href=false}}`);
+  assert.equal(find('a').getAttribute('href'), undefined);
+});
