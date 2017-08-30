@@ -1,13 +1,9 @@
+import { Promise } from 'rsvp';
+import { next } from '@ember/runloop';
+import { setProperties } from '@ember/object';
 import { click, find } from 'ember-native-dom-helpers';
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-
-const {
-  RSVP: { Promise },
-  run: { next },
-  setProperties
-} = Ember;
 
 moduleForComponent('async-button', 'Integration | Component | async button', {
   integration: true

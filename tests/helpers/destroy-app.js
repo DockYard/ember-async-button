@@ -1,7 +1,5 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { assertionCleanup } from '../assertions';
-
-const { run } = Ember;
 
 export default function destroyApp(application) {
   run(application, 'destroy');

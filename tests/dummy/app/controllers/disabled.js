@@ -1,6 +1,4 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import PromiseMixin from 'dummy/mixins/promise';
-
-const { Controller } = Ember;
 
 export default Controller.extend(PromiseMixin);

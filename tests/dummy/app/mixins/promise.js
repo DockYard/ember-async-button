@@ -1,12 +1,7 @@
-import Ember from 'ember';
-
-const {
-  Mixin,
-  get,
-  set,
-  run: { later },
-  RSVP: { Promise }
-} = Ember;
+import Mixin from '@ember/object/mixin';
+import { set, get } from '@ember/object';
+import { later } from '@ember/runloop';
+import { Promise } from 'rsvp';
 
 export default Mixin.create({
   actions: {

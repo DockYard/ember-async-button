@@ -1,15 +1,13 @@
-import Ember from 'ember';
-import layout from '../templates/components/async-button';
-
-const {
-  get,
-  set,
-  computed,
-  observer,
-  deprecate,
+import { deprecate } from '@ember/application/deprecations';
+import {
   getWithDefault,
-  Component
-} = Ember;
+  observer,
+  computed,
+  set,
+  get
+} from '@ember/object';
+import Component from '@ember/component';
+import layout from '../templates/components/async-button';
 
 let positionalParamsMixin = {
   positionalParams: 'params'
