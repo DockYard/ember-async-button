@@ -1,15 +1,11 @@
+import { resolve } from 'rsvp';
+import { set } from '@ember/object';
+import { run } from '@ember/runloop';
 import { click, find, fillIn, visit } from 'ember-native-dom-helpers';
-import Ember from 'ember';
 import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 
 let DisabledController;
-
-const {
-  RSVP: { resolve },
-  set,
-  run
-} = Ember;
 
 moduleForAcceptance('Acceptance | Disabled AsyncButton', {
   beforeEach() {

@@ -1,15 +1,17 @@
-import { find, click, findAll, visit, waitUntil } from 'ember-native-dom-helpers';
-import Ember from 'ember';
+import { resolve, reject, Promise } from 'rsvp';
+import { set } from '@ember/object';
+import { run } from '@ember/runloop';
+import {
+  find,
+  click,
+  findAll,
+  visit,
+  waitUntil
+} from 'ember-native-dom-helpers';
 import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 
 let AppController;
-
-const {
-  RSVP: { Promise, reject, resolve },
-  set,
-  run
-} = Ember;
 
 moduleForAcceptance('Acceptance | AsyncButton', {
   beforeEach() {

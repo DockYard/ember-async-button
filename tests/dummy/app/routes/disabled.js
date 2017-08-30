@@ -1,11 +1,6 @@
-import Ember from 'ember';
-
-const {
-  Object: EmberObject,
-  Route,
-  computed,
-  computed: { not }
-} = Ember;
+import Route from '@ember/routing/route';
+import EmberObject, { computed } from '@ember/object';
+import { not } from '@ember/object/computed';
 
 let Foo = EmberObject.extend({
   name: '',
