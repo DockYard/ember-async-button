@@ -1,3 +1,38 @@
+# DEPRECATED
+
+This project has been deprecated.
+
+## Why is it being deprecated?
+
+After three years of use, it has become apparent that this is better used as a
+pattern and not extracted to its own addon.  The JS community has evolved and
+writing logic based on promises is common practice.
+
+## How can I do this myself?
+
+You can [view this twiddle for an example](https://ember-twiddle.com/d2c4057c04aad43755fe6a27d8464c64?openFiles=components.form-example.js%2Ctemplates.components.form-example.hbs) of how you can easily control button state based
+on the state of a promise.  The button is disabled while saving, indicating when
+it is pending and tells you when it was successful or fails.  All this is done
+without an addon.  Simply save your promise to a property on your controller or
+component, then you can update your button:
+
+```handlebars
+<button type="submit" disabled={{cannotSubmit}}>
+  {{#if activePromise.isPending}}
+    Saving...
+  {{else if activePromise.isFulfilled}}
+    Saved!
+  {{else if activePromise.isRejected}}
+    Submission failed
+  {{else}}
+    Submit
+  {{/if}}
+</button>
+```
+
+Where `activePromise` is the promise you set and `cannotSubmit` is a boolean
+you can create to disable the button.
+
 # Ember Async Button
 
 [See a demo](http://jsbin.com/qokogasilu/1)

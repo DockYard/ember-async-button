@@ -24,6 +24,13 @@ const ButtonComponent = Component.extend(positionalParamsMixin, {
   attributeBindings: ['disabled', 'type', '_href:href', 'tabindex'],
 
   type: 'submit',
+
+  init() {
+    this._super(...arguments);
+    let deprecationMessage = '`ember-async-button` has been deprecated and will no longer be supported.';
+    deprecate(deprecationMessage, false, { id: 'ember-async-button.deprecate-addon', until: 'forever' });
+  },
+
   disabled: computed('textState', 'disableWhen', function() {
     let textState = get(this, 'textState');
     let disableWhen = get(this, 'disableWhen');
