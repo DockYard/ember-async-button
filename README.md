@@ -1,6 +1,8 @@
 # DEPRECATED
 
-This project has been deprecated. But we do still maintain this addon.
+This project has been deprecated. 
+
+This addon is no longer actively developed. But we do still maintain this addon.
 
 ## Why is it being deprecated?
 
