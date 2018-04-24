@@ -4,6 +4,8 @@ This project has been deprecated.
 
 This addon is no longer actively developed. But we'll still keep it here.
 
+Here is the spiritual successor https://github.com/kellyselden/ember-async-action-container.
+
 ## Why is it being deprecated?
 
 After three years of use, it has become apparent that this is better used as a
